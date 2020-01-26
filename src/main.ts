@@ -13,7 +13,7 @@ export interface PostgrestOpts {
 
 const queuedActions: Array<Action> = []
 
-export default function connectPostgrest(opts: PostgrestOpts) {
+export default function connectPostgrest(opts: PostgrestOpts): Middleware {
   const { http = axios, url } = opts
 
   const apiRoot = {
