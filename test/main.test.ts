@@ -1,10 +1,8 @@
-import connectPostgrest, {
-  HttpMethod,
-  ActionKind,
-  HttpClient,
-  PostgrestOpts,
-  PostgrestAction,
-} from "../src/main"
+import connectPostgrest, { PostgrestOpts } from "../src/main"
+import { HttpClient } from "../src/HttpClient"
+import { PostgrestAction } from "../src/PostgrestAction"
+import { ActionKind } from "../src/ActionKind"
+import { HttpMethod } from "../src/HttpMethod"
 import { createStore, applyMiddleware, Action, Reducer, Store } from "redux"
 
 describe("connectPostgrest", () => {

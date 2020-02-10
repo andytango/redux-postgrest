@@ -1,6 +1,5 @@
 import { Action } from "redux"
-
-export type ActionHandler = (action: Action) => Action
+import { ActionHandler } from "./ActionHandler"
 
 export default function queueActions(
   actionHandlerFn: () => Promise<ActionHandler>,

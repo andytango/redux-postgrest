@@ -2,10 +2,10 @@ import "./config"
 import { Store, Action, Middleware, Dispatch } from "redux"
 import axios from "axios"
 import { ApiRoot, isPostgrestAction } from "./lib"
-
-export interface HttpClient {
-  get: (url: String) => Promise<Object>
-}
+import { HttpMethod } from "./HttpMethod"
+import { ActionKind } from "./ActionKind"
+import { PostgrestAction } from "./PostgrestAction"
+import { HttpClient } from "./HttpClient"
 
 export interface PostgrestOpts {
   http: HttpClient
@@ -41,26 +41,6 @@ export default function connectPostgrest(opts: PostgrestOpts): Middleware {
 
       return store.getState()
     }
-  }
-}
-
-export enum HttpMethod {
-  GET = "GET",
-  POST = "POST",
-  DELETE = "DELETE",
-  PATCH = "PATCH",
-}
-
-export enum ActionKind {
-  REQUEST = "REQUEST",
-  RESPONSE = "RESPONSE",
-  ERROR = "ERROR",
-}
-
-export interface PostgrestAction extends Action {
-  meta: {
-    method: HttpMethod
-    kind: ActionKind
   }
 }
 

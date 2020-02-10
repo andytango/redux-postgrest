@@ -1,5 +1,6 @@
 import addActionMeta from "../src/actionMeta"
-import { HttpMethod, ActionKind } from "../src/main"
+import { ActionKind } from "../src/ActionKind"
+import { HttpMethod } from "../src/HttpMethod"
 
 describe("addActionMeta", () => {
   it("ignores non-postgrest actions", () => {

@@ -1,7 +1,9 @@
 import { Action } from "redux"
-import { ActionHandler } from "./queueActions"
+import { ActionHandler } from "./ActionHandler"
 import { isPostgrestAction } from "./lib"
-import { HttpMethod, ActionKind, PostgrestAction } from "./main"
+import { PostgrestAction } from "./PostgrestAction"
+import { ActionKind } from "./ActionKind"
+import { HttpMethod } from "./HttpMethod"
 
 export default function addActionMeta(apiRoot): ActionHandler {
   return (action: Action) => {
@@ -11,7 +13,7 @@ export default function addActionMeta(apiRoot): ActionHandler {
         meta: {
           method: HttpMethod.GET,
           kind: ActionKind.REQUEST,
-          ...((action as PostgrestAction).meta)
+          ...(action as PostgrestAction).meta,
         },
       }
     }
