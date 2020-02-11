@@ -1,5 +1,5 @@
-import addActionMeta from "../src/actionMeta"
 import { ActionKind } from "../src/ActionKind"
+import addActionMeta from "../src/actionMeta"
 import { HttpMethod } from "../src/HttpMethod"
 
 describe("addActionMeta", () => {
