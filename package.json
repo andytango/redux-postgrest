@@ -29,7 +29,8 @@
     "build": "npm run lint && npm test && rollup -c",
     "dev": "rollup -c -w",
     "lint": "prettier --write *.js src/**.[jt]s test/**.[jt]s",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "files": [
     "dist"
