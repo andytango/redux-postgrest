@@ -11,15 +11,32 @@ import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
 import { ActionKind } from "./ActionKind"
 import { HttpMethod } from "./HttpMethod"
+import { PostgrestOpts } from "./main"
 import { PostgrestAction } from "./PostgrestAction"
 
-export default function addActionMeta(apiRoot): ActionHandler {
+export default function addActionMeta(
+  opts: PostgrestOpts,
+  apiRoot: Object,
+): ActionHandler {
   return (action: Action) => {
-    if (isPostgrestAction(action, apiRoot)) {
+    if (matchesRestEndpoint(action, apiRoot)) {
       return {
         ...action,
         meta: {
           method: HttpMethod.GET,
+          url: concat(opts.url, pathTypePropRest(action)),
+          kind: ActionKind.REQUEST,
+          ...action.meta,
+        },
+      }
+    }
+
+    if (matchesRpcEndpoint(action, apiRoot)) {
+      return {
+        ...action,
+        meta: {
+          method: HttpMethod.POST,
+          url: concat(opts.url, pathTypePropRpc(action)),
           kind: ActionKind.REQUEST,
           ...action.meta,
         },
@@ -30,25 +47,37 @@ export default function addActionMeta(apiRoot): ActionHandler {
   }
 }
 
-export interface ApiRoot {
-  loaded: Boolean
-  body: Object
-}
-
 const typeProp: (action: Action) => any = prop("type")
 
-const pathTypeProp: (action: Action) => String = pipe(
+const pathTypePropRest: (action: Action) => string = pipe(
   typeProp,
   toLower,
   concat("/"),
 )
 
-function isPostgrestAction(
+function matchesRestEndpoint(
   action: Action,
-  apiRoot: ApiRoot,
+  apiRoot: Object,
 ): action is PostgrestAction {
   return pathSatisfies(
-    pipe(keys, includes(pathTypeProp(action))),
+    pipe(keys, includes(pathTypePropRest(action))),
+    ["body", "paths"],
+    apiRoot,
+  )
+}
+
+const pathTypePropRpc: (action: Action) => string = pipe(
+  typeProp,
+  toLower,
+  concat("/rpc/"),
+)
+
+function matchesRpcEndpoint(
+  action: Action,
+  apiRoot: Object,
+): action is PostgrestAction {
+  return pathSatisfies(
+    pipe(keys, includes(pathTypePropRpc(action))),
     ["body", "paths"],
     apiRoot,
   )
