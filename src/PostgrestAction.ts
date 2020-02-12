@@ -1,11 +1,10 @@
 import { Action } from "redux"
-import { HttpMethod } from "./HttpMethod"
-import { ActionKind } from "./ActionKind"
+import { HttpKind, HttpMethod } from "./http"
 
 export interface PostgrestAction extends Action {
   meta: {
     method: HttpMethod
     url: string
-    kind: ActionKind
+    kind: HttpKind
   }
 }

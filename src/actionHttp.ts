@@ -1,9 +1,8 @@
 import { Action, Store } from "redux"
 import { PostgrestAction } from "./PostgrestAction"
 import { pathEq, pipe, path, toLower } from "ramda"
-import { ActionKind } from "./ActionKind"
 import { PostgrestOpts } from "./main"
-import { HttpResponse } from "./HttpClient"
+import { HttpResponse, HttpKind } from "./http"
 
 export default function actionHttp(opts: PostgrestOpts, store: Store) {
   return (action: Action) => {
@@ -18,7 +17,7 @@ export default function actionHttp(opts: PostgrestOpts, store: Store) {
 }
 
 const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(
-  pathEq(["meta", "kind"], ActionKind.REQUEST)
+  pathEq(["meta", "kind"], HttpKind.REQUEST)
 )
 
 const httpClientMethod: (action: PostgrestAction) => string = pipe(
@@ -32,7 +31,7 @@ function onResponse(action: PostgrestAction, store: Store) {
       ...action,
       meta: {
         ...action.meta,
-        kind: ActionKind.RESPONSE,
+        kind: HttpKind.RESPONSE,
         response,
       },
     })

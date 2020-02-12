@@ -1,9 +1,7 @@
 import actionHttp from "../src/actionHttp"
 import { createStore, Action } from "redux"
 import { identity } from "ramda"
-import { HttpMethod } from "../src/HttpMethod"
-import { ActionKind } from "../src/ActionKind"
-import { HttpResponse } from "../src/HttpClient"
+import { HttpMethod, HttpKind } from "../src/http"
 
 describe("actionHttp", () => {
   it("performs a HTTP GET request according to the action metadata", () => {
@@ -39,7 +37,7 @@ describe("actionHttp", () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         createExampleAction({
           method: HttpMethod.GET,
-          kind: ActionKind.RESPONSE,
+          kind: HttpKind.RESPONSE,
           response: httpResponse,
         }),
       )
@@ -69,7 +67,7 @@ describe("actionHttp", () => {
   function createExampleAction(meta: Object) {
     return {
       type: "EXAMPLE_TABLE",
-      meta: { kind: ActionKind.REQUEST, url: createExampleUrl(), ...meta },
+      meta: { kind: HttpKind.REQUEST, url: createExampleUrl(), ...meta },
     }
   }
 

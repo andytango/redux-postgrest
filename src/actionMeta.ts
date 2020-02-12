@@ -9,8 +9,7 @@ import {
 } from "ramda"
 import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
-import { ActionKind } from "./ActionKind"
-import { HttpMethod } from "./HttpMethod"
+import { HttpKind, HttpMethod } from "./http"
 import { PostgrestOpts } from "./main"
 import { PostgrestAction } from "./PostgrestAction"
 
@@ -25,7 +24,7 @@ export default function addActionMeta(
         meta: {
           method: HttpMethod.GET,
           url: concat(opts.url, pathTypePropRest(action)),
-          kind: ActionKind.REQUEST,
+          kind: HttpKind.REQUEST,
           ...action.meta,
         },
       }
@@ -37,7 +36,7 @@ export default function addActionMeta(
         meta: {
           method: HttpMethod.POST,
           url: concat(opts.url, pathTypePropRpc(action)),
-          kind: ActionKind.REQUEST,
+          kind: HttpKind.REQUEST,
           ...action.meta,
         },
       }

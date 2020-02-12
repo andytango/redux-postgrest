@@ -1,6 +1,5 @@
-import { ActionKind } from "../src/ActionKind"
 import addActionMeta from "../src/actionMeta"
-import { HttpMethod } from "../src/HttpMethod"
+import { HttpKind, HttpMethod } from "../src/http"
 
 describe("addActionMeta", () => {
   it("ignores non-postgrest actions", () => {
@@ -15,7 +14,7 @@ describe("addActionMeta", () => {
       meta: {
         method: HttpMethod.GET,
         url: "https://hostname.tld/example_table",
-        kind: ActionKind.REQUEST,
+        kind: HttpKind.REQUEST,
       },
     })
   })
@@ -31,7 +30,7 @@ describe("addActionMeta", () => {
       meta: {
         method: HttpMethod.POST,
         url: "https://hostname.tld/rpc/example_fn",
-        kind: ActionKind.REQUEST,
+        kind: HttpKind.REQUEST,
       },
       payload: { example_param: "someText" },
     })
@@ -41,7 +40,7 @@ describe("addActionMeta", () => {
     const exampleAction = {
       type: "EXAMPLE_TABLE",
       someKey: "someVal",
-      meta: { method: HttpMethod.POST, kind: ActionKind.RESPONSE },
+      meta: { method: HttpMethod.POST, kind: HttpKind.RESPONSE },
     }
 
     expect(createExampleHandler()(exampleAction)).toEqual({
@@ -50,7 +49,7 @@ describe("addActionMeta", () => {
       meta: {
         method: HttpMethod.POST,
         url: "https://hostname.tld/example_table",
-        kind: ActionKind.RESPONSE,
+        kind: HttpKind.RESPONSE,
       },
     })
   })

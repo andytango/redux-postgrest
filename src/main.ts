@@ -1,6 +1,6 @@
 import { Action, Dispatch, Middleware, Store } from "redux"
 import "./config"
-import { HttpClient } from "./HttpClient"
+import { HttpClient } from "./http"
 
 export interface PostgrestOpts {
   http?: HttpClient
