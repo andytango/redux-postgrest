@@ -10,9 +10,9 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",
-    "@rollup/plugin-typescript": "^2.1.0",
     "@types/jest": "^24.9.1",
     "@types/ramda": "^0.26.40",
+    "@wessberg/rollup-plugin-ts": "^1.2.16",
     "axios": "^0.19.2",
     "husky": "^4.2.1",
     "jest": "^25.1.0",
@@ -26,7 +26,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build": "npm run lint && npm test && rollup -c",
+    "build": "rollup -c",
+    "build-test": "npm test && npm run build",
     "dev": "rollup -c -w",
     "lint": "prettier --write *.js src/**.[jt]s test/**.[jt]s",
     "test": "jest",

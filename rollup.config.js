@@ -1,7 +1,7 @@
 import pkg from "./package.json"
 import resolve from "@rollup/plugin-node-resolve"
 import commonjs from "@rollup/plugin-commonjs"
-import typescript from "@rollup/plugin-typescript"
+import ts from "@wessberg/rollup-plugin-ts"
 
 export default [
   // browser-friendly UMD build
@@ -14,7 +14,7 @@ export default [
       format: "umd",
       globals: { dotenv: "dotenv" },
     },
-    plugins: [resolve(), commonjs(), typescript()],
+    plugins: [resolve(), commonjs(), ts()],
   },
   // CommonJS (for Node) and ES module (for bundlers) build.
   // (We could have three entries in the configuration array
@@ -29,6 +29,6 @@ export default [
       { file: pkg.main, format: "cjs" },
       { file: pkg.module, format: "es" },
     ],
-    plugins: [typescript()],
+    plugins: [ts()],
   },
 ]
