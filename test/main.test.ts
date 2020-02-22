@@ -27,14 +27,8 @@ describe("connectPostgrest", () => {
     expect(store.getState().lastAction).toEqual({ type: "example_action" })
   })
 
-  it("performs requests from queued actions after api root is loaded", done => {
+  it("performs requests from actions queued before api root is loaded", done => {
     const http = wrapAxios(res => {
-      if (res.config.url.endsWith("3000")) {
-        expect(store.getState().lastAction).toEqual({
-          type: "example_table",
-        })
-      }
-
       if (res.config.url.endsWith("/example_table")) {
         expect(store.getState().lastAction).toMatchObject({
           type: "example_table",
@@ -61,17 +55,10 @@ describe("connectPostgrest", () => {
     store.dispatch({ type: "example_table" })
   })
 
-  it("adds action metadata after api root has loaded", done => {
+  it("performs requests from actions dispatched after api root is loaded", done => {
     const http = wrapAxios(res => {
       if (res.config.url.endsWith("3000")) {
         store.dispatch({ type: "example_table" })
-
-        expect(store.getState().lastAction).toMatchObject({
-          type: "example_table",
-          meta: {
-            kind: HttpKind.REQUEST,
-          },
-        })
       }
 
       if (res.config.url.endsWith("/example_table")) {
