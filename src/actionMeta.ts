@@ -35,8 +35,7 @@ export default function addActionMeta(
         meta: {
           method: HttpMethod.GET,
           url: concat(opts.url, pathTypePropRest(action)),
-          kind: HttpKind.REQUEST,
-          ...action.meta,
+          ...getCommonMetaProps(opts, action),
         },
       }
     }
@@ -48,13 +47,20 @@ export default function addActionMeta(
         meta: {
           method: HttpMethod.POST,
           url: concat(opts.url, pathTypePropRpc(action)),
-          kind: HttpKind.REQUEST,
-          ...action.meta,
+          ...getCommonMetaProps(opts, action),
         },
       }
     }
 
     return action
+  }
+}
+
+function getCommonMetaProps(opts: PostgrestOpts, action: PostgrestAction) {
+  return {
+    api: opts.url,
+    kind: HttpKind.REQUEST,
+    ...action.meta,
   }
 }
 

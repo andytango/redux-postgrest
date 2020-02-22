@@ -12,6 +12,7 @@ describe("addActionMeta", () => {
     expect(createExampleHandler()(exampleAction)).toEqual({
       ...exampleAction,
       meta: {
+        api: "https://hostname.tld",
         method: HttpMethod.GET,
         url: "https://hostname.tld/example_table",
         kind: HttpKind.REQUEST,
@@ -28,6 +29,7 @@ describe("addActionMeta", () => {
     expect(createExampleHandler()(exampleAction)).toEqual({
       ...exampleAction,
       meta: {
+        api: "https://hostname.tld",
         method: HttpMethod.POST,
         url: "https://hostname.tld/rpc/example_fn",
         kind: HttpKind.REQUEST,
@@ -47,6 +49,7 @@ describe("addActionMeta", () => {
       type: "EXAMPLE_TABLE",
       someKey: "someVal",
       meta: {
+        api: "https://hostname.tld",
         method: HttpMethod.POST,
         url: "https://hostname.tld/example_table",
         kind: HttpKind.RESPONSE,
