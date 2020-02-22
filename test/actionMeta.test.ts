@@ -60,12 +60,10 @@ describe("addActionMeta", () => {
         url: "https://hostname.tld",
       },
       {
-        body: {
-          paths: {
-            "/": {},
-            "/example_table": { get: {} },
-            "/rpc/example_fn": { post: {} },
-          },
+        paths: {
+          "/": {},
+          "/example_table": { get: {} },
+          "/rpc/example_fn": { post: {} },
         },
       },
     )
