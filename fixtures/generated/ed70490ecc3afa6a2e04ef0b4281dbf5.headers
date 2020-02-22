@@ -1,0 +1,20 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "transfer-encoding": "chunked",
+    "date": "Sat, 22 Feb 2020 18:05:44 GMT",
+    "server": "postgrest/6.0.2 (713b214)",
+    "content-type": "application/json; charset=utf-8",
+    "content-range": "*/*",
+    "content-location": "/example_table"
+  },
+  "url": "http://localhost:3000/example_table",
+  "time": 3,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "User-Agent": "axios/0.19.2"
+    }
+  }
+}

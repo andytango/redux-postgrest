@@ -21,6 +21,7 @@
     "ramda": "^0.26.1",
     "redux": "^4.0.5",
     "rollup": "^1.29.1",
+    "sepia": "^2.0.2",
     "ts-jest": "^25.0.0",
     "tslib": "^1.10.0",
     "typescript": "^3.7.5",
@@ -31,8 +32,8 @@
     "build-test": "npm test && npm run build",
     "dev": "rollup -c -w",
     "lint": "prettier --write *.js src/**.[jt]s test/**.[jt]s",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "VCR_MODE=playback jest",
+    "test:watch": "VCR_MODE=cache jest --watch"
   },
   "files": [
     "dist"
