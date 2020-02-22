@@ -6,12 +6,14 @@ import {
   prop,
   propSatisfies,
   toLower,
+  forEach,
 } from "ramda"
 import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
 import { HttpKind, HttpMethod } from "./http"
 import { PostgrestOpts } from "./main"
 import { PostgrestAction } from "./PostgrestAction"
+import logger from "./log"
 
 export interface ApiRoot {
   paths: Object
@@ -21,8 +23,13 @@ export default function addActionMeta(
   opts: PostgrestOpts,
   apiRoot: ApiRoot,
 ): ActionHandler {
+  logger.verbose("Action meta handler initialised with following paths:")
+  forEach(k => logger.verbose(`  ${k}`), keys(prop("paths", apiRoot)))
+
   return (action: Action) => {
+    logger.verbose(`Identifying action meta for ${action.type}`)
     if (matchesRestEndpoint(action, apiRoot)) {
+      logger.verbose(`Adding REST action meta for ${action.type}`)
       return {
         ...action,
         meta: {
@@ -35,6 +42,7 @@ export default function addActionMeta(
     }
 
     if (matchesRpcEndpoint(action, apiRoot)) {
+      logger.verbose(`Adding RPC action meta for ${action.type}`)
       return {
         ...action,
         meta: {
