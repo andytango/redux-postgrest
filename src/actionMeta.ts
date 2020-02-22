@@ -2,9 +2,9 @@ import {
   concat,
   includes,
   keys,
-  pathSatisfies,
   pipe,
   prop,
+  propSatisfies,
   toLower,
 } from "ramda"
 import { Action } from "redux"
@@ -13,9 +13,13 @@ import { HttpKind, HttpMethod } from "./http"
 import { PostgrestOpts } from "./main"
 import { PostgrestAction } from "./PostgrestAction"
 
+export interface ApiRoot {
+  paths: Object
+}
+
 export default function addActionMeta(
   opts: PostgrestOpts,
-  apiRoot: Object,
+  apiRoot: ApiRoot,
 ): ActionHandler {
   return (action: Action) => {
     if (matchesRestEndpoint(action, apiRoot)) {
@@ -58,9 +62,9 @@ function matchesRestEndpoint(
   action: Action,
   apiRoot: Object,
 ): action is PostgrestAction {
-  return pathSatisfies(
+  return propSatisfies(
     pipe(keys, includes(pathTypePropRest(action))),
-    ["body", "paths"],
+    "paths",
     apiRoot,
   )
 }
@@ -75,9 +79,9 @@ function matchesRpcEndpoint(
   action: Action,
   apiRoot: Object,
 ): action is PostgrestAction {
-  return pathSatisfies(
+  return propSatisfies(
     pipe(keys, includes(pathTypePropRpc(action))),
-    ["body", "paths"],
+    "paths",
     apiRoot,
   )
 }

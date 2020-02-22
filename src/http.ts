@@ -1,5 +1,8 @@
 export interface HttpResponse {
-  data: Object
+  data: object
+  status: number
+  statusText: string
+  headers: object
 }
 
 export interface HttpClient {
