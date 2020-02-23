@@ -26,7 +26,7 @@ export function createReducer(opts: PostgrestOpts) {
       return {
         ...state,
         [action.type]: {
-          [action.meta.method]: getHttpResponse(action),
+          [action.meta.method]: action.meta.response,
         },
       }
     }
@@ -38,10 +38,3 @@ export function createReducer(opts: PostgrestOpts) {
 function logMatchingAction(url: string, type: string) {
   logger.debug(`Reducing received HTTP response ${type} against ${url}`)
 }
-
-const getHttpResponse = <(action: PostgrestAction) => HttpResponse>(
-  pipe(
-    path(["meta", "response"]),
-    pick(["data", "headers", "status", "statusText"]),
-  )
-)

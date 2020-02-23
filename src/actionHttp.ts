@@ -1,6 +1,6 @@
 import { Action, Store } from "redux"
 import { PostgrestAction } from "./PostgrestAction"
-import { pathEq, pipe, path, toLower } from "ramda"
+import { pathEq, pipe, path, toLower, pick } from "ramda"
 import { PostgrestOpts } from "./main"
 import { HttpResponse, HttpKind, HttpClient } from "./http"
 import logger from "./log"
@@ -22,8 +22,7 @@ export default function actionHttp(opts: PostgrestOpts, store: Store) {
 }
 
 function performHttpRequest(http: HttpClient, action: PostgrestAction) {
-  const { method, url } = action.meta
-  return http({ method, url })
+  return http[httpClientMethod(action)](action.meta.url)
 }
 
 const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(
@@ -31,7 +30,7 @@ const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(
 )
 
 const httpClientMethod: (action: PostgrestAction) => string = pipe(
-  (path as (x0: string[]) => (x1: object) => string)(["meta", "method"]),
+  path(["meta", "method"]),
   toLower,
 )
 
@@ -45,10 +44,14 @@ function dispatchResponse(
     meta: {
       ...action.meta,
       kind: HttpKind.RESPONSE,
-      response,
+      response: getHttpResponse(response),
     },
   })
 }
+
+const getHttpResponse = <(res: HttpResponse) => HttpResponse>(
+  pick(["data", "headers", "status", "statusText"])
+)
 
 function logRequest(action: PostgrestAction) {
   logger.info(

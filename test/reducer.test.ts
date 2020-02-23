@@ -1,24 +1,22 @@
 import { createReducer } from "../src/reducer"
 import { HttpKind, HttpMethod } from "../src/http"
+import Axios from "axios"
 
 describe("createReducer", () => {
   it("takes postgrestOpts and returns a reducer", () => {
-    const exampleOpts = { url: "http://example.tld" }
-    const reducer = createReducer(exampleOpts)
+    const reducer = createExampleReducer()
 
     expect(reducer).toBeInstanceOf(Function)
   })
 
   it("ignores non-postgrest actions", () => {
-    const exampleOpts = { url: "http://example.tld" }
-    const reducer = createReducer(exampleOpts)
+    const reducer = createExampleReducer()
 
     expect(reducer({}, { type: "example_type" })).toEqual({})
   })
 
   it("ignores actions that do not match the api url", () => {
-    const exampleOpts = { url: "http://example.tld" }
-    const reducer = createReducer(exampleOpts)
+    const reducer = createExampleReducer()
 
     expect(
       reducer(
@@ -37,8 +35,7 @@ describe("createReducer", () => {
   })
 
   it("ignores actions that are not http responses", () => {
-    const exampleOpts = { url: "http://example.tld" }
-    const reducer = createReducer(exampleOpts)
+    const reducer = createExampleReducer()
 
     expect(
       reducer(
@@ -57,8 +54,7 @@ describe("createReducer", () => {
   })
 
   it("stores responses according to their HTTP method", () => {
-    const exampleOpts = { url: "http://example.tld" }
-    const reducer = createReducer(exampleOpts)
+    const reducer = createExampleReducer()
     const exampleResponse = {
       data: { example_key: "example_value" },
       status: 200,
@@ -87,3 +83,8 @@ describe("createReducer", () => {
     })
   })
 })
+
+function createExampleReducer() {
+  const exampleOpts = { url: "http://example.tld", http: Axios }
+  return createReducer(exampleOpts)
+}

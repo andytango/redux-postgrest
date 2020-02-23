@@ -1,5 +1,6 @@
 import addActionMeta from "../src/actionMeta"
 import { HttpKind, HttpMethod } from "../src/http"
+import Axios from "axios"
 
 describe("addActionMeta", () => {
   it("ignores non-postgrest actions", () => {
@@ -61,6 +62,7 @@ describe("addActionMeta", () => {
     return addActionMeta(
       {
         url: "https://hostname.tld",
+        http: Axios,
       },
       {
         paths: {
