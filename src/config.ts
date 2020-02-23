@@ -1,7 +1,7 @@
 import { config } from "dotenv"
 config()
 
-export default function requireEnvVar(varName) {
+export default function requireEnvVar(varName: string) {
   const val = process.env[varName]
 
   if (typeof val === "undefined") {

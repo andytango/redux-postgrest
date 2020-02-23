@@ -9,7 +9,7 @@ import logger from "./log"
 import { createReducer } from "./reducer"
 
 export interface PostgrestOpts {
-  http?: HttpClient
+  http: HttpClient
   url: string
 }
 
@@ -22,7 +22,7 @@ export default function connectPostgrest(
   opts: PostgrestOpts,
 ): { middleware: Middleware; reducer: Reducer } {
   return {
-    middleware: (store: Store) => {
+    middleware: <Middleware>((store: Store) => {
       logger.verbose(`Initialising redux-postgrest for api at ${opts.url}`)
       const handleAction = queueActions(() =>
         opts.http
@@ -37,7 +37,7 @@ export default function connectPostgrest(
         next(handleAction(action))
         return store.getState()
       }
-    },
+    }),
     reducer: createReducer(opts),
   }
 }

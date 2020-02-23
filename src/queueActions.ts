@@ -15,7 +15,7 @@ export default function queueActions(
 
   actionHandlerFn().then(handler => {
     actionHandler = handler
-    logger.info('Endpoint loaded, handling queued actions...')
+    logger.info("Endpoint loaded, handling queued actions...")
     processQueuedActions(queue, actionHandler)
   })
 
@@ -25,7 +25,9 @@ export default function queueActions(
 function processQueuedActions(queue: Action[], handler: ActionHandler) {
   while (queue.length) {
     const action = queue.shift()
-    logger.verbose(`Handling queued action of type ${action.type}`)
-    handler(action)
+    if (action) {
+      logger.verbose(`Handling queued action of type ${action.type}`)
+      handler(action)
+    }
   }
 }

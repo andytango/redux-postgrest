@@ -1,3 +1,5 @@
+import { AxiosInstance } from "axios"
+
 export interface HttpResponse {
   data: object
   status: number
@@ -5,12 +7,7 @@ export interface HttpResponse {
   headers: object
 }
 
-export interface HttpClient {
-  get: (url: String) => Promise<HttpResponse>
-  post: (url: String) => Promise<HttpResponse>
-  patch: (url: String) => Promise<HttpResponse>
-  delete: (url: String) => Promise<HttpResponse>
-}
+export interface HttpClient extends AxiosInstance {}
 
 export enum HttpKind {
   REQUEST = "REQUEST",
