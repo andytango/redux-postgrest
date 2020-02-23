@@ -37,7 +37,7 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRest(action)),
           ...getCommonMetaProps(opts, action),
         },
-      }
+      } as PostgrestAction
     }
 
     if (matchesRpcEndpoint(action, apiRoot)) {
@@ -49,10 +49,10 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRpc(action)),
           ...getCommonMetaProps(opts, action),
         },
-      }
+      } as PostgrestAction
     }
 
-    return action
+    return action as Action
   }
 }
 
