@@ -1,4 +1,4 @@
-import { pathEq, propOr, allPass } from "ramda"
+import { pathEq, propOr, allPass, pipe, pick, path } from "ramda"
 import { Action } from "redux"
 import { HttpMethod, HttpResponse, HttpKind } from "./http"
 import { PostgrestOpts } from "./main"
@@ -20,13 +20,13 @@ export function createReducer(opts: PostgrestOpts) {
   )
 
   return (state = initialState, action: Action | PostgrestAction) => {
-    logger.verbose(`Reducing ${JSON.stringify(action)} against ${opts.url}`)
+    logger.verbose(`Reducing ${action.type} against ${opts.url}`)
     if (isHttpResponse(action)) {
       logMatchingAction(opts.url, action.type)
       return {
         ...state,
         [action.type]: {
-          [action.meta.method]: action.meta.response,
+          [action.meta.method]: getHttpResponse(action),
         },
       }
     }
@@ -38,3 +38,10 @@ export function createReducer(opts: PostgrestOpts) {
 function logMatchingAction(url: string, type: string) {
   logger.debug(`Reducing received HTTP response ${type} against ${url}`)
 }
+
+const getHttpResponse = <(action: PostgrestAction) => HttpResponse>(
+  pipe(
+    path(["meta", "response"]),
+    pick(["data", "headers", "status", "statusText"]),
+  )
+)

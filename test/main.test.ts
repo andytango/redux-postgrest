@@ -1,10 +1,10 @@
-import Axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import Axios, { AxiosResponse } from "axios"
+import { Action, applyMiddleware, combineReducers, createStore } from "redux"
+import { HttpClient, HttpKind, HttpMethod } from "../src/http"
 import connectPostgrest from "../src/main"
-import { createStore, Action, applyMiddleware } from "redux"
-import { HttpKind, HttpClient } from "../src/http"
 
 describe("connectPostgrest", () => {
-  it("returns an object with a middleware and router", () => {
+  it("returns an object with a middleware and reducer", () => {
     expect(createExampleMiddleware()).toEqual({
       middleware: expect.any(Function),
       reducer: expect.any(Function),
@@ -63,6 +63,30 @@ describe("connectPostgrest", () => {
     const { middleware } = createExampleMiddleware(http)
     const reducer = createTestReducer()
     const store = createStore(reducer, applyMiddleware(middleware))
+  })
+
+  it("provides a reducer that exposes the latest http resonses", done => {
+    const http = wrapAxios(res => {
+      if (res.config.url.endsWith("/example_table")) {
+        expect(store.getState().api).toEqual({
+          example_table: {
+            [HttpMethod.GET]: {
+              data: res.data,
+              headers: res.headers,
+              status: res.status,
+              statusText: res.statusText,
+            },
+          },
+        })
+
+        done()
+      }
+    })
+
+    const { middleware, reducer } = createExampleMiddleware(http)
+    const reducers = combineReducers({ api: reducer })
+    const store = createStore(reducers, applyMiddleware(middleware))
+    store.dispatch({ type: "example_table" })
   })
 })
 
