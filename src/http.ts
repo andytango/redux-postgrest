@@ -5,12 +5,14 @@ export interface HttpResponse {
   headers: object
 }
 
-export interface HttpClient {
-  get: (url: String) => Promise<HttpResponse>
-  post: (url: String) => Promise<HttpResponse>
-  patch: (url: String) => Promise<HttpResponse>
-  delete: (url: String) => Promise<HttpResponse>
+export interface HttpRequestConfig {
+  method: HttpMethod
+  url: string
+  data?: object
+  headers?: object
 }
+
+export type HttpClient = (config: HttpRequestConfig) => Promise<HttpResponse>
 
 export enum HttpKind {
   REQUEST = "REQUEST",

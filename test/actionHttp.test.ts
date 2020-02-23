@@ -1,31 +1,43 @@
-import actionHttp from "../src/actionHttp"
-import { createStore, Action } from "redux"
 import { identity } from "ramda"
-import { HttpMethod, HttpKind } from "../src/http"
+import { Action, createStore } from "redux"
+import actionHttp from "../src/actionHttp"
+import { HttpKind, HttpMethod } from "../src/http"
 
 describe("actionHttp", () => {
   it("performs a HTTP GET request according to the action metadata", () => {
     const { http, handler } = createMockActionHttp()
     handler(createExampleAction({ method: HttpMethod.GET }))
-    expect(http.get).toHaveBeenCalledWith(createExampleUrl())
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({ method: "GET", url: createExampleUrl() }),
+    )
   })
 
   it("performs a HTTP POST request according to the action metadata", () => {
     const { http, handler } = createMockActionHttp()
-    handler(createExampleAction({ method: HttpMethod.POST }))
-    expect(http.post).toHaveBeenCalledWith(createExampleUrl())
+    handler(createExampleAction({ method: HttpMethod.POST, data: { k: "v" } }))
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "POST",
+        data: { k: "v" },
+        url: createExampleUrl(),
+      }),
+    )
   })
 
   it("performs a HTTP PATCH request according to the action metadata", () => {
     const { http, handler } = createMockActionHttp()
     handler(createExampleAction({ method: HttpMethod.PATCH }))
-    expect(http.patch).toHaveBeenCalledWith(createExampleUrl())
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({ method: "PATCH", url: createExampleUrl() }),
+    )
   })
 
   it("performs a HTTP DELETE request according to the action metadata", () => {
     const { http, handler } = createMockActionHttp()
     handler(createExampleAction({ method: HttpMethod.DELETE }))
-    expect(http.delete).toHaveBeenCalledWith(createExampleUrl())
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({ method: "DELETE", url: createExampleUrl() }),
+    )
   })
 
   it("dispatches an action after the response", done => {
@@ -47,14 +59,14 @@ describe("actionHttp", () => {
   })
 
   function createMockActionHttp() {
-    const httpResponse = { data: {} }
-
-    const http = {
-      get: createMockHttpFn(httpResponse),
-      post: createMockHttpFn(httpResponse),
-      patch: createMockHttpFn(httpResponse),
-      delete: createMockHttpFn(httpResponse),
+    const httpResponse = {
+      data: {},
+      status: 200,
+      statusText: "ok",
+      headers: {},
     }
+
+    const http = jest.fn(() => Promise.resolve(httpResponse))
 
     const store = createStore(identity)
     store.dispatch = jest.fn((action: Action) => null)
@@ -73,9 +85,5 @@ describe("actionHttp", () => {
 
   function createExampleUrl() {
     return "http://hostname.tld/"
-  }
-
-  function createMockHttpFn(res) {
-    return jest.fn(() => Promise.resolve(res))
   }
 })

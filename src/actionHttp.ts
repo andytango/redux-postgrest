@@ -22,7 +22,13 @@ export default function actionHttp(opts: PostgrestOpts, store: Store) {
 }
 
 function performHttpRequest(http: HttpClient, action: PostgrestAction) {
-  return http[httpClientMethod(action)](action.meta.url)
+  const { method, url, data, headers } = action.meta
+  return http({
+    method,
+    url,
+    data,
+    headers,
+  })
 }
 
 const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(

@@ -1,6 +1,11 @@
 import Axios, { AxiosResponse } from "axios"
 import { Action, applyMiddleware, combineReducers, createStore } from "redux"
-import { HttpClient, HttpKind, HttpMethod } from "../src/http"
+import {
+  HttpClient,
+  HttpKind,
+  HttpMethod,
+  HttpRequestConfig,
+} from "../src/http"
 import connectPostgrest from "../src/main"
 
 describe("connectPostgrest", () => {
@@ -91,18 +96,11 @@ describe("connectPostgrest", () => {
 })
 
 function wrapAxios(fn: (res: AxiosResponse) => any) {
-  const invoker = (method: string) => (url: string) =>
-    Axios[method](url).then((res: AxiosResponse) => {
+  return (config: HttpRequestConfig) =>
+    Axios(config).then((res: AxiosResponse) => {
       setImmediate(() => fn(res))
       return res
     })
-
-  return {
-    get: invoker("get"),
-    post: invoker("post"),
-    patch: invoker("patch"),
-    delete: invoker("delete"),
-  }
 }
 
 function createExampleMiddleware(http: HttpClient = Axios) {
