@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
-  "browser": "dist/main.umd.js",
   "dependencies": {
     "dotenv": "^8.2.0"
   },
