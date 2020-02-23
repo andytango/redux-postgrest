@@ -1,25 +1,19 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import connectPostgrest from "../src/main"
 import { createStore, Action, applyMiddleware } from "redux"
-import { HttpKind } from "../src/http"
+import { HttpKind, HttpClient } from "../src/http"
 
 describe("connectPostgrest", () => {
-  it("returns a middleware", () => {
-    expect(
-      connectPostgrest({ http: Axios, url: "http://localhost:3000" }),
-    ).toBeInstanceOf(Function)
+  it("returns an object with a middleware and router", () => {
+    expect(createExampleMiddleware()).toEqual({
+      middleware: expect.any(Function),
+      reducer: expect.any(Function),
+    })
   })
 
   it("passes actions while awaiting api root", () => {
-    const middleware = connectPostgrest({
-      http: Axios,
-      url: "http://localhost:3000",
-    })
-
-    const reducer = (state = { lastAction: {} }, action: Action) => ({
-      lastAction: action,
-    })
-
+    const { middleware } = createExampleMiddleware()
+    const reducer = createTestReducer()
     const store = createStore(reducer, applyMiddleware(middleware))
 
     store.dispatch({ type: "example_action" })
@@ -41,15 +35,8 @@ describe("connectPostgrest", () => {
       }
     })
 
-    const middleware = connectPostgrest({
-      http,
-      url: "http://localhost:3000",
-    })
-
-    const reducer = (state = { lastAction: {} as Action }, action: Action) => ({
-      lastAction: action,
-    })
-
+    const { middleware } = createExampleMiddleware(http)
+    const reducer = createTestReducer()
     const store = createStore(reducer, applyMiddleware(middleware))
 
     store.dispatch({ type: "example_table" })
@@ -73,15 +60,8 @@ describe("connectPostgrest", () => {
       }
     })
 
-    const middleware = connectPostgrest({
-      http,
-      url: "http://localhost:3000",
-    })
-
-    const reducer = (state = { lastAction: {} as Action }, action: Action) => ({
-      lastAction: action,
-    })
-
+    const { middleware } = createExampleMiddleware(http)
+    const reducer = createTestReducer()
     const store = createStore(reducer, applyMiddleware(middleware))
   })
 })
@@ -99,4 +79,17 @@ function wrapAxios(fn: (res: AxiosResponse) => any) {
     patch: invoker("patch"),
     delete: invoker("delete"),
   }
+}
+
+function createExampleMiddleware(http: HttpClient = Axios) {
+  return connectPostgrest({
+    http,
+    url: "http://localhost:3000",
+  })
+}
+
+function createTestReducer() {
+  return (state = { lastAction: {} as Action }, action: Action) => ({
+    lastAction: action,
+  })
 }
