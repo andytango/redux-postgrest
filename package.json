@@ -20,6 +20,7 @@
     "pretty-quick": "^2.0.1",
     "ramda": "^0.26.1",
     "redux": "^4.0.5",
+    "rimraf": "^3.0.2",
     "rollup": "^1.29.1",
     "sepia": "^2.0.2",
     "ts-jest": "^25.0.0",
@@ -28,8 +29,8 @@
     "winston": "^3.2.1"
   },
   "scripts": {
-    "build": "rollup -c",
-    "build-test": "npm test && npm run build",
+    "build": "rimraf ./dist && rollup -c",
+    "build-test": "yarn test && yarn run build",
     "dev": "rollup -c -w",
     "lint": "prettier --write *.js src/**.[jt]s test/**.[jt]s",
     "test": "VCR_MODE=playback jest",
