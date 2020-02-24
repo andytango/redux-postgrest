@@ -55,30 +55,55 @@ describe("createReducer", () => {
 
   it("stores responses according to their HTTP method", () => {
     const reducer = createExampleReducer()
-    const exampleResponse = {
+    const exampleResponseGet = {
       data: { example_key: "example_value" },
       status: 200,
       statusText: "ok",
       headers: {},
     }
 
-    expect(
-      reducer(
-        {},
-        {
-          type: "some_table",
-          meta: {
-            api: "http://example.tld",
-            url: "http://example.tld/some_table",
-            kind: HttpKind.RESPONSE,
-            method: HttpMethod.GET,
-            response: exampleResponse,
-          },
+    const exampleResponsePost = {
+      data: { example_key: "example_value" },
+      status: 201,
+      statusText: "Created",
+      headers: {},
+    }
+
+    const state1 = reducer(
+      {},
+      {
+        type: "some_table",
+        meta: {
+          api: "http://example.tld",
+          url: "http://example.tld/some_table",
+          kind: HttpKind.RESPONSE,
+          method: HttpMethod.GET,
+          response: exampleResponseGet,
         },
-      ),
-    ).toEqual({
+      },
+    )
+
+    const state2 = reducer(state1, {
+      type: "some_table",
+      meta: {
+        api: "http://example.tld",
+        url: "http://example.tld/some_table",
+        kind: HttpKind.RESPONSE,
+        method: HttpMethod.POST,
+        response: exampleResponsePost,
+      },
+    })
+
+    expect(state1).toEqual({
       some_table: {
-        [HttpMethod.GET]: exampleResponse,
+        [HttpMethod.GET]: exampleResponseGet,
+      },
+    })
+
+    expect(state2).toEqual({
+      some_table: {
+        [HttpMethod.GET]: exampleResponseGet,
+        [HttpMethod.POST]: exampleResponsePost,
       },
     })
   })

@@ -6,8 +6,8 @@ export interface PostgrestAction extends Action {
     api: string
     method: HttpMethod
     url: string
-    headers: object
-    data: object
+    headers?: object
+    data?: object
     kind: HttpKind
     response?: HttpResponse
   }

@@ -26,6 +26,7 @@ export function createReducer(opts: PostgrestOpts) {
       return {
         ...state,
         [action.type]: {
+          ...state[action.type],
           [action.meta.method]: action.meta.response,
         },
       }
