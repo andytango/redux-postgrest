@@ -1,9 +1,10 @@
 import { Action, Store } from "redux"
 import { PostgrestAction } from "./PostgrestAction"
-import { pathEq, pipe, path, toLower, pick } from "ramda"
+import { pathEq, pipe, path, toLower, pick, is } from "ramda"
 import { PostgrestOpts } from "./main"
 import { HttpResponse, HttpKind, HttpClient } from "./http"
 import logger from "./log"
+import { stringify } from "query-string"
 
 export default function actionHttp(opts: PostgrestOpts, store: Store) {
   logger.verbose("Action HTTP handler initialised")
@@ -22,13 +23,30 @@ export default function actionHttp(opts: PostgrestOpts, store: Store) {
 }
 
 function performHttpRequest(http: HttpClient, action: PostgrestAction) {
-  const { method, url, data, headers } = action.meta
+  const { method, url, data, headers, query } = action.meta
   return http({
     method,
-    url,
+    url: getUrl(url, query),
     data,
     headers,
   })
+}
+
+const isString = <(x: any) => x is string>is(String)
+const isObject = <(x: any) => x is object>is(Object)
+
+function getUrl(url: string, query: string | object) {
+  const parsed = new URL(url)
+
+  if (isString(query) && query) {
+    parsed.search = query
+  }
+
+  if (isObject(query)) {
+    parsed.search = stringify(query)
+  }
+
+  return parsed.toString()
 }
 
 const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(

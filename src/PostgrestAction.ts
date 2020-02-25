@@ -10,5 +10,6 @@ export interface PostgrestAction extends Action {
     data?: object
     kind: HttpKind
     response?: HttpResponse
+    query?: string
   }
 }

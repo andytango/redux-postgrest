@@ -40,6 +40,24 @@ describe("actionHttp", () => {
     )
   })
 
+  it("appends a query string", () => {
+    const { http, handler } = createMockActionHttp()
+    handler(createExampleAction({ method: HttpMethod.GET, query: "id=eq.1" }))
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({ url: createExampleUrl() + "?id=eq.1" }),
+    )
+  })
+
+  it("parses a query string object", () => {
+    const { http, handler } = createMockActionHttp()
+    handler(
+      createExampleAction({ method: HttpMethod.GET, query: { id: "eq.1" } }),
+    )
+    expect(http).toHaveBeenCalledWith(
+      expect.objectContaining({ url: createExampleUrl() + "?id=eq.1" }),
+    )
+  })
+
   it("dispatches an action after the response", done => {
     const { handler, httpResponse, store } = createMockActionHttp()
 
