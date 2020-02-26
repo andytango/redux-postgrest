@@ -1,0 +1,28 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "transfer-encoding": "chunked",
+    "date": "Wed, 26 Feb 2020 18:09:43 GMT",
+    "server": "postgrest/6.0.2 (713b214)",
+    "content-type": "application/openapi+json; charset=utf-8"
+  },
+  "url": "http://localhost:3000/",
+  "time": 58,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "accept-encoding": [
+        "gzip,deflate"
+      ],
+      "user-agent": [
+        "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
+      ],
+      "connection": [
+        "close"
+      ],
+      "accept": [
+        "*/*"
+      ]
+    }
+  }
+}
