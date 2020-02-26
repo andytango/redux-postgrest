@@ -1,5 +1,5 @@
 export interface HttpResponse {
-  data: object
+  body: object
   status: number
   statusText: string
   headers: object
@@ -8,7 +8,7 @@ export interface HttpResponse {
 export interface HttpRequestConfig {
   method: HttpMethod
   url: string
-  data?: object
+  body?: object
   headers?: object
 }
 

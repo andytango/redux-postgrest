@@ -14,11 +14,11 @@ describe("actionHttp", () => {
 
   it("performs a HTTP POST request according to the action metadata", () => {
     const { http, handler } = createMockActionHttp()
-    handler(createExampleAction({ method: HttpMethod.POST, data: { k: "v" } }))
+    handler(createExampleAction({ method: HttpMethod.POST, body: { k: "v" } }))
     expect(http).toHaveBeenCalledWith(
       expect.objectContaining({
         method: "POST",
-        data: { k: "v" },
+        body: { k: "v" },
         url: createExampleUrl(),
       }),
     )
@@ -78,7 +78,7 @@ describe("actionHttp", () => {
 
   function createMockActionHttp() {
     const httpResponse = {
-      data: {},
+      body: {},
       status: 200,
       statusText: "ok",
       headers: {},

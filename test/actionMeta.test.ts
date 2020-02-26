@@ -1,6 +1,6 @@
 import addActionMeta from "../src/actionMeta"
 import { HttpKind, HttpMethod } from "../src/http"
-import Axios from "axios"
+import { httpFetch } from "../src/httpFetch"
 
 describe("addActionMeta", () => {
   it("ignores non-postgrest actions", () => {
@@ -60,10 +60,7 @@ describe("addActionMeta", () => {
 
   function createExampleHandler() {
     return addActionMeta(
-      {
-        url: "https://hostname.tld",
-        http: Axios,
-      },
+      { url: "https://hostname.tld", http: httpFetch },
       {
         paths: {
           "/": {},

@@ -1,4 +1,3 @@
-import Axios, { AxiosResponse } from "axios"
 import { Action, applyMiddleware, combineReducers, createStore } from "redux"
 import {
   HttpClient,
@@ -6,6 +5,7 @@ import {
   HttpMethod,
   HttpRequestConfig,
 } from "../src/http"
+import { httpFetch } from "../src/httpFetch"
 import connectPgRest from "../src/main"
 
 describe("connectPgRest", () => {
@@ -27,13 +27,11 @@ describe("connectPgRest", () => {
   })
 
   it("performs requests from actions queued before api root is loaded", done => {
-    const http = wrapAxios(res => {
-      if (res.config.url.endsWith("/example_table")) {
+    const http = wrapHttp(res => {
+      if (res.url.endsWith("/example_table")) {
         expect(store.getState().lastAction).toMatchObject({
           type: "example_table",
-          meta: {
-            kind: HttpKind.RESPONSE,
-          },
+          meta: { kind: HttpKind.RESPONSE },
         })
 
         done()
@@ -48,12 +46,12 @@ describe("connectPgRest", () => {
   })
 
   it("performs requests from actions dispatched after api root is loaded", done => {
-    const http = wrapAxios(res => {
-      if (res.config.url.endsWith("3000")) {
+    const http = wrapHttp(res => {
+      if (res.url.endsWith("3000")) {
         store.dispatch({ type: "example_table" })
       }
 
-      if (res.config.url.endsWith("/example_table")) {
+      if (res.url.endsWith("/example_table")) {
         expect(store.getState().lastAction).toMatchObject({
           type: "example_table",
           meta: {
@@ -71,12 +69,12 @@ describe("connectPgRest", () => {
   })
 
   it("provides a reducer that exposes the latest http resonses", done => {
-    const http = wrapAxios(res => {
-      if (res.config.url.endsWith("/example_table")) {
+    const http = wrapHttp(res => {
+      if (res.url.endsWith("/example_table")) {
         expect(store.getState().api).toEqual({
           example_table: {
             [HttpMethod.GET]: {
-              data: res.data,
+              body: res.body,
               headers: res.headers,
               status: res.status,
               statusText: res.statusText,
@@ -95,15 +93,16 @@ describe("connectPgRest", () => {
   })
 })
 
-function wrapAxios(fn: (res: AxiosResponse) => any) {
-  return (config: HttpRequestConfig) =>
-    Axios(config).then((res: AxiosResponse) => {
+function wrapHttp(fn: (res: Response) => any) {
+  return (config: HttpRequestConfig) => {
+    return httpFetch(config).then((res: Response) => {
       setImmediate(() => fn(res))
       return res
     })
+  }
 }
 
-function createExampleMiddleware(http: HttpClient = Axios) {
+function createExampleMiddleware(http: HttpClient = httpFetch) {
   return connectPgRest({
     http,
     url: "http://localhost:3000",

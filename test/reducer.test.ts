@@ -1,6 +1,6 @@
-import { createReducer } from "../src/reducer"
 import { HttpKind, HttpMethod } from "../src/http"
-import Axios from "axios"
+import { httpFetch } from "../src/httpFetch"
+import { createReducer } from "../src/reducer"
 
 describe("createReducer", () => {
   it("takes postgrestOpts and returns a reducer", () => {
@@ -56,14 +56,14 @@ describe("createReducer", () => {
   it("stores responses according to their HTTP method", () => {
     const reducer = createExampleReducer()
     const exampleResponseGet = {
-      data: { example_key: "example_value" },
+      body: { example_key: "example_value" },
       status: 200,
       statusText: "ok",
       headers: {},
     }
 
     const exampleResponsePost = {
-      data: { example_key: "example_value" },
+      body: { example_key: "example_value" },
       status: 201,
       statusText: "Created",
       headers: {},
@@ -110,6 +110,6 @@ describe("createReducer", () => {
 })
 
 function createExampleReducer() {
-  const exampleOpts = { url: "http://example.tld", http: Axios }
+  const exampleOpts = { url: "http://example.tld", http: httpFetch }
   return createReducer(exampleOpts)
 }

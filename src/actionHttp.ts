@@ -1,12 +1,12 @@
 import { Action, Store } from "redux"
 import { PgRestAction } from "./PgRestAction"
 import { pathEq, pipe, path, toLower, pick, is } from "ramda"
-import { PgRestOpts } from "./main"
+import { PgRestOptsInternal } from "./main"
 import { HttpResponse, HttpKind, HttpClient } from "./http"
 import logger from "./log"
 import { stringify } from "query-string"
 
-export default function actionHttp(opts: PgRestOpts, store: Store) {
+export default function actionHttp(opts: PgRestOptsInternal, store: Store) {
   logger.verbose("Action HTTP handler initialised")
 
   return (action: Action) => {
@@ -23,11 +23,11 @@ export default function actionHttp(opts: PgRestOpts, store: Store) {
 }
 
 function performHttpRequest(http: HttpClient, action: PgRestAction) {
-  const { method, url, data, headers, query } = action.meta
+  const { method, url, body, headers, query } = action.meta
   return http({
     method,
     url: getUrl(url, query),
-    data,
+    body,
     headers,
   })
 }
@@ -74,7 +74,7 @@ function dispatchResponse(
 }
 
 const getHttpResponse = <(res: HttpResponse) => HttpResponse>(
-  pick(["data", "headers", "status", "statusText"])
+  pick(["body", "headers", "status", "statusText"])
 )
 
 function logRequest(action: PgRestAction) {

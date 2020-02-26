@@ -1,26 +1,26 @@
 import {
   concat,
+  forEach,
   includes,
   keys,
   pipe,
   prop,
   propSatisfies,
   toLower,
-  forEach,
 } from "ramda"
 import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
 import { HttpKind, HttpMethod } from "./http"
-import { PgRestOpts } from "./main"
-import { PgRestAction } from "./PostgrestAction"
 import logger from "./log"
+import { PgRestOptsInternal } from "./main"
+import { PgRestAction } from "./PgRestAction"
 
 export interface ApiRoot {
   paths: Object
 }
 
 export default function addActionMeta(
-  opts: PgRestOpts,
+  opts: PgRestOptsInternal,
   apiRoot: ApiRoot,
 ): ActionHandler {
   logger.verbose("Action meta handler initialised with following paths:")
@@ -56,7 +56,7 @@ export default function addActionMeta(
   }
 }
 
-function getCommonMetaProps(opts: PgRestOpts, action: PgRestAction) {
+function getCommonMetaProps(opts: PgRestOptsInternal, action: PgRestAction) {
   return {
     api: opts.url,
     kind: HttpKind.REQUEST,

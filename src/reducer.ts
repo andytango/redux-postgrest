@@ -1,9 +1,9 @@
-import { pathEq, propOr, allPass, pipe, pick, path } from "ramda"
+import { allPass, pathEq, propOr } from "ramda"
 import { Action } from "redux"
-import { HttpMethod, HttpResponse, HttpKind } from "./http"
-import { PgRestOpts } from "./main"
-import { PgRestAction } from "./PostgrestAction"
+import { HttpKind, HttpMethod, HttpResponse } from "./http"
 import logger from "./log"
+import { PgRestOptsInternal } from "./main"
+import { PgRestAction } from "./PgRestAction"
 
 type HttpResponseCollection = { [K in HttpMethod]: HttpResponse }
 
@@ -11,7 +11,7 @@ const initialState = {} as { [key: string]: HttpResponseCollection }
 
 const urlProp = propOr("", "url")
 
-export function createReducer(opts: PgRestOpts) {
+export function createReducer(opts: PgRestOptsInternal) {
   const isHttpResponse = <(action: Action) => action is PgRestAction>(
     allPass([
       pathEq(["meta", "api"], urlProp(opts)),

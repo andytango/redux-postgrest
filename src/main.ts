@@ -1,33 +1,42 @@
 import { pipe } from "ramda"
-import { Action, Dispatch, Middleware, Store, Reducer } from "redux"
+import { Action, Dispatch, Middleware, Reducer, Store } from "redux"
 import actionHttp from "./actionHttp"
 import addActionMeta, { ApiRoot } from "./actionMeta"
 import { HttpClient, HttpMethod } from "./http"
-import queueActions from "./queueActions"
+import { httpFetch } from "./httpFetch"
 import logger from "./log"
+import queueActions from "./queueActions"
 import { createReducer } from "./reducer"
 
 export interface PgRestOpts {
-  http: HttpClient
+  http?: HttpClient
   url: string
 }
 
 export interface PgRestOptsInternal {
-  http?: HttpClient
+  http: HttpClient
   url: string
 }
 
 export default function connectPgRest(
   opts: PgRestOpts,
 ): { middleware: Middleware; reducer: Reducer } {
+  const optsInternal = mergeDefaultOpts(opts)
+
   return {
     middleware: <Middleware>((store: Store) => {
-      logger.verbose(`Initialising redux-postgrest for api at ${opts.url}`)
+      logger.verbose(
+        `Initialising redux-postgrest for api at ${optsInternal.url}`,
+      )
+
       const handleAction = queueActions(() =>
-        opts
-          .http({ method: HttpMethod.GET, url: opts.url })
-          .then(({ data }) =>
-            pipe(addActionMeta(opts, data as ApiRoot), actionHttp(opts, store)),
+        optsInternal
+          .http({ method: HttpMethod.GET, url: optsInternal.url })
+          .then(({ body }) =>
+            pipe(
+              addActionMeta(optsInternal, body as ApiRoot),
+              actionHttp(optsInternal, store),
+            ),
           ),
       )
 
@@ -37,6 +46,10 @@ export default function connectPgRest(
         return store.getState()
       }
     }),
-    reducer: createReducer(opts),
+    reducer: createReducer(optsInternal),
   }
+}
+
+function mergeDefaultOpts(opts: PgRestOpts): PgRestOptsInternal {
+  return { http: httpFetch, ...opts }
 }

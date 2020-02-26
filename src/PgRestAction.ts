@@ -7,7 +7,7 @@ export interface PgRestAction extends Action {
     method: HttpMethod
     url: string
     headers?: object
-    data?: object
+    body?: object
     kind: HttpKind
     response?: HttpResponse
     query?: string
