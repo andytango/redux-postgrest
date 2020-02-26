@@ -3,7 +3,8 @@
     "esModuleInterop": true,
     "declaration": true,
     "outDir": "dist",
-    "removeComments": true
+    "removeComments": true,
+    "target": "ES6"
   },
   "include": ["src/**/*"]
 }
