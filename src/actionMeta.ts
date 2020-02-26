@@ -11,8 +11,8 @@ import {
 import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
 import { HttpKind, HttpMethod } from "./http"
-import { PostgrestOpts } from "./main"
-import { PostgrestAction } from "./PostgrestAction"
+import { PgRestOpts } from "./main"
+import { PgRestAction } from "./PostgrestAction"
 import logger from "./log"
 
 export interface ApiRoot {
@@ -20,7 +20,7 @@ export interface ApiRoot {
 }
 
 export default function addActionMeta(
-  opts: PostgrestOpts,
+  opts: PgRestOpts,
   apiRoot: ApiRoot,
 ): ActionHandler {
   logger.verbose("Action meta handler initialised with following paths:")
@@ -37,7 +37,7 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRest(action)),
           ...getCommonMetaProps(opts, action),
         },
-      } as PostgrestAction
+      } as PgRestAction
     }
 
     if (matchesRpcEndpoint(action, apiRoot)) {
@@ -49,14 +49,14 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRpc(action)),
           ...getCommonMetaProps(opts, action),
         },
-      } as PostgrestAction
+      } as PgRestAction
     }
 
     return action as Action
   }
 }
 
-function getCommonMetaProps(opts: PostgrestOpts, action: PostgrestAction) {
+function getCommonMetaProps(opts: PgRestOpts, action: PgRestAction) {
   return {
     api: opts.url,
     kind: HttpKind.REQUEST,
@@ -75,7 +75,7 @@ const pathTypePropRest: (action: Action) => string = pipe(
 function matchesRestEndpoint(
   action: Action,
   apiRoot: Object,
-): action is PostgrestAction {
+): action is PgRestAction {
   return propSatisfies(
     pipe(keys, includes(pathTypePropRest(action))),
     "paths",
@@ -92,7 +92,7 @@ const pathTypePropRpc: (action: Action) => string = pipe(
 function matchesRpcEndpoint(
   action: Action,
   apiRoot: Object,
-): action is PostgrestAction {
+): action is PgRestAction {
   return propSatisfies(
     pipe(keys, includes(pathTypePropRpc(action))),
     "paths",

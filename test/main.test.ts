@@ -6,9 +6,9 @@ import {
   HttpMethod,
   HttpRequestConfig,
 } from "../src/http"
-import connectPostgrest from "../src/main"
+import connectPgRest from "../src/main"
 
-describe("connectPostgrest", () => {
+describe("connectPgRest", () => {
   it("returns an object with a middleware and reducer", () => {
     expect(createExampleMiddleware()).toEqual({
       middleware: expect.any(Function),
@@ -104,7 +104,7 @@ function wrapAxios(fn: (res: AxiosResponse) => any) {
 }
 
 function createExampleMiddleware(http: HttpClient = Axios) {
-  return connectPostgrest({
+  return connectPgRest({
     http,
     url: "http://localhost:3000",
   })

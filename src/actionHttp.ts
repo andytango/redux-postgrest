@@ -1,12 +1,12 @@
 import { Action, Store } from "redux"
-import { PostgrestAction } from "./PostgrestAction"
+import { PgRestAction } from "./PgRestAction"
 import { pathEq, pipe, path, toLower, pick, is } from "ramda"
-import { PostgrestOpts } from "./main"
+import { PgRestOpts } from "./main"
 import { HttpResponse, HttpKind, HttpClient } from "./http"
 import logger from "./log"
 import { stringify } from "query-string"
 
-export default function actionHttp(opts: PostgrestOpts, store: Store) {
+export default function actionHttp(opts: PgRestOpts, store: Store) {
   logger.verbose("Action HTTP handler initialised")
 
   return (action: Action) => {
@@ -22,7 +22,7 @@ export default function actionHttp(opts: PostgrestOpts, store: Store) {
   }
 }
 
-function performHttpRequest(http: HttpClient, action: PostgrestAction) {
+function performHttpRequest(http: HttpClient, action: PgRestAction) {
   const { method, url, data, headers, query } = action.meta
   return http({
     method,
@@ -49,18 +49,18 @@ function getUrl(url: string, query: string | object) {
   return parsed.toString()
 }
 
-const isHttpRequestAction = <(action: Action) => action is PostgrestAction>(
+const isHttpRequestAction = <(action: Action) => action is PgRestAction>(
   pathEq(["meta", "kind"], HttpKind.REQUEST)
 )
 
-const httpClientMethod: (action: PostgrestAction) => string = pipe(
+const httpClientMethod: (action: PgRestAction) => string = pipe(
   path(["meta", "method"]),
   toLower,
 )
 
 function dispatchResponse(
   store: Store,
-  action: PostgrestAction,
+  action: PgRestAction,
   response: HttpResponse,
 ) {
   store.dispatch({
@@ -77,7 +77,7 @@ const getHttpResponse = <(res: HttpResponse) => HttpResponse>(
   pick(["data", "headers", "status", "statusText"])
 )
 
-function logRequest(action: PostgrestAction) {
+function logRequest(action: PgRestAction) {
   logger.info(
     `HTTP request action received for type ${
       action.type
@@ -85,7 +85,7 @@ function logRequest(action: PostgrestAction) {
   )
 }
 
-function logResponse(action: PostgrestAction) {
+function logResponse(action: PgRestAction) {
   logger.info(
     `HTTP response action received for type ${
       action.type

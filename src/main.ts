@@ -7,18 +7,18 @@ import queueActions from "./queueActions"
 import logger from "./log"
 import { createReducer } from "./reducer"
 
-export interface PostgrestOpts {
+export interface PgRestOpts {
   http: HttpClient
   url: string
 }
 
-export interface PostgrestOptsInternal {
+export interface PgRestOptsInternal {
   http?: HttpClient
   url: string
 }
 
-export default function connectPostgrest(
-  opts: PostgrestOpts,
+export default function connectPgRest(
+  opts: PgRestOpts,
 ): { middleware: Middleware; reducer: Reducer } {
   return {
     middleware: <Middleware>((store: Store) => {

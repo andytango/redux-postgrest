@@ -1,7 +1,7 @@
 import { Action } from "redux"
 import { HttpKind, HttpMethod, HttpResponse } from "./http"
 
-export interface PostgrestAction extends Action {
+export interface PgRestAction extends Action {
   meta: {
     api: string
     method: HttpMethod
