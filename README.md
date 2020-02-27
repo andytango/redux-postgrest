@@ -1,19 +1,8 @@
-# boilerplate
+# redux-postgrest
 
-A simple node library module boilerplate comprising:
+A library to make developing with React and postgREST as effortless as possible.
 
-- Dotenv
-- Rollup
-- Babel
-- Jest
-- Prettier
-- NPM, as opposed to Yarn
-
-Directory structure:
-
-- /src - _sources live here_
-- /test - _test files live here_
-- /tmp - _gitingored directory_
+[See the demo app](https://github.com/andytango/redux-postgrest-demo).
 
 ## License
 
