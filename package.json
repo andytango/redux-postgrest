@@ -4,32 +4,33 @@
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "dependencies": {
-    "@types/query-string": "^6.3.0",
     "dotenv": "^8.2.0",
     "isomorphic-fetch": "^2.2.1",
-    "node-fetch": "^2.6.0",
     "query-string": "^6.11.0",
-    "replayer": "^2.2.3"
+    "ramda": "^0.26.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "@types/jest": "^24.9.1",
+    "@types/query-string": "^6.3.0",
     "@types/ramda": "^0.26.42",
     "@wessberg/rollup-plugin-ts": "^1.2.16",
     "husky": "^4.2.1",
     "jest": "^25.1.0",
+    "node-fetch": "^2.6.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
-    "ramda": "^0.26.1",
     "redux": "^4.0.5",
+    "replayer": "^2.2.3",
     "rimraf": "^3.0.2",
     "rollup": "^1.29.1",
     "ts-jest": "^25.0.0",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.5",
-    "winston": "^3.2.1"
+    "typescript": "^3.7.5"
   },
+  "peerDependencies": {},
   "scripts": {
     "build": "rimraf ./dist && rollup -c",
     "build-test": "yarn test && yarn run build",
