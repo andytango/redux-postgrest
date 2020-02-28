@@ -3,7 +3,7 @@ import { Action } from "redux"
 import { HttpKind, HttpMethod, HttpResponse } from "./http"
 import logger from "./log"
 import { PgRestOptsInternal } from "./main"
-import { PgRestAction } from "./PgRestAction"
+import { PgRestActionInternal } from "./PgRestAction"
 
 type HttpResponseCollection = { [K in HttpMethod]: HttpResponse }
 
@@ -12,14 +12,14 @@ const initialState = {} as { [key: string]: HttpResponseCollection }
 const urlProp = propOr("", "url")
 
 export function createReducer(opts: PgRestOptsInternal) {
-  const isHttpResponse = <(action: Action) => action is PgRestAction>(
+  const isHttpResponse = <(action: Action) => action is PgRestActionInternal>(
     allPass([
       pathEq(["meta", "api"], urlProp(opts)),
       pathEq(["meta", "kind"], HttpKind.RESPONSE),
     ])
   )
 
-  return (state = initialState, action: Action | PgRestAction) => {
+  return (state = initialState, action: Action | PgRestActionInternal) => {
     logger.verbose(`Reducing ${action.type} against ${opts.url}`)
     if (isHttpResponse(action)) {
       logMatchingAction(opts.url, action.type)

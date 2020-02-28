@@ -13,7 +13,7 @@ import { ActionHandler } from "./ActionHandler"
 import { HttpKind, HttpMethod } from "./http"
 import logger from "./log"
 import { PgRestOptsInternal } from "./main"
-import { PgRestAction } from "./PgRestAction"
+import { PgRestActionInternal } from "./PgRestAction"
 
 export interface ApiRoot {
   paths: Object
@@ -37,7 +37,7 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRest(action)),
           ...getCommonMetaProps(opts, action),
         },
-      } as PgRestAction
+      } as PgRestActionInternal
     }
 
     if (matchesRpcEndpoint(action, apiRoot)) {
@@ -49,14 +49,17 @@ export default function addActionMeta(
           url: concat(opts.url, pathTypePropRpc(action)),
           ...getCommonMetaProps(opts, action),
         },
-      } as PgRestAction
+      } as PgRestActionInternal
     }
 
     return action as Action
   }
 }
 
-function getCommonMetaProps(opts: PgRestOptsInternal, action: PgRestAction) {
+function getCommonMetaProps(
+  opts: PgRestOptsInternal,
+  action: PgRestActionInternal,
+) {
   return {
     api: opts.url,
     kind: HttpKind.REQUEST,
@@ -75,7 +78,7 @@ const pathTypePropRest: (action: Action) => string = pipe(
 function matchesRestEndpoint(
   action: Action,
   apiRoot: Object,
-): action is PgRestAction {
+): action is PgRestActionInternal {
   return propSatisfies(
     pipe(keys, includes(pathTypePropRest(action))),
     "paths",
@@ -92,7 +95,7 @@ const pathTypePropRpc: (action: Action) => string = pipe(
 function matchesRpcEndpoint(
   action: Action,
   apiRoot: Object,
-): action is PgRestAction {
+): action is PgRestActionInternal {
   return propSatisfies(
     pipe(keys, includes(pathTypePropRpc(action))),
     "paths",

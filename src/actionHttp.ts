@@ -1,5 +1,5 @@
 import { Action, Store } from "redux"
-import { PgRestAction } from "./PgRestAction"
+import { PgRestActionInternal } from "./PgRestAction"
 import { pathEq, pipe, path, toLower, pick, is } from "ramda"
 import { PgRestOptsInternal } from "./main"
 import { HttpResponse, HttpKind, HttpClient } from "./http"
@@ -22,7 +22,7 @@ export default function actionHttp(opts: PgRestOptsInternal, store: Store) {
   }
 }
 
-function performHttpRequest(http: HttpClient, action: PgRestAction) {
+function performHttpRequest(http: HttpClient, action: PgRestActionInternal) {
   const { method, url, body, headers, query } = action.meta
   return http({
     method,
@@ -49,18 +49,18 @@ function getUrl(url: string, query: string | object) {
   return parsed.toString()
 }
 
-const isHttpRequestAction = <(action: Action) => action is PgRestAction>(
-  pathEq(["meta", "kind"], HttpKind.REQUEST)
-)
+const isHttpRequestAction = <
+  (action: Action) => action is PgRestActionInternal
+>pathEq(["meta", "kind"], HttpKind.REQUEST)
 
-const httpClientMethod: (action: PgRestAction) => string = pipe(
+const httpClientMethod: (action: PgRestActionInternal) => string = pipe(
   path(["meta", "method"]),
   toLower,
 )
 
 function dispatchResponse(
   store: Store,
-  action: PgRestAction,
+  action: PgRestActionInternal,
   response: HttpResponse,
 ) {
   store.dispatch({
@@ -77,7 +77,7 @@ const getHttpResponse = <(res: HttpResponse) => HttpResponse>(
   pick(["body", "headers", "status", "statusText"])
 )
 
-function logRequest(action: PgRestAction) {
+function logRequest(action: PgRestActionInternal) {
   logger.info(
     `HTTP request action received for type ${
       action.type
@@ -85,7 +85,7 @@ function logRequest(action: PgRestAction) {
   )
 }
 
-function logResponse(action: PgRestAction) {
+function logResponse(action: PgRestActionInternal) {
   logger.info(
     `HTTP response action received for type ${
       action.type
