@@ -1,5 +1,6 @@
 import fetch from "fetch-vcr"
 import { Action, applyMiddleware, combineReducers, createStore } from "redux"
+import connectPgRest from "../src/connectPgRest"
 import {
   HttpClient,
   HttpKind,
@@ -7,7 +8,6 @@ import {
   HttpRequestConfig,
 } from "../src/http"
 import { handleFetchResponse } from "../src/httpFetch"
-import connectPgRest from "../src/main"
 
 describe("connectPgRest", () => {
   it("returns an object with a middleware and reducer", () => {

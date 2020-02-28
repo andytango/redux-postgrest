@@ -1,10 +1,10 @@
-import { Action, Store } from "redux"
-import { PgRestActionInternal } from "./PgRestAction"
-import { pathEq, pipe, path, toLower, pick, is } from "ramda"
-import { PgRestOptsInternal } from "./main"
-import { HttpResponse, HttpKind, HttpClient } from "./http"
-import logger from "./log"
 import { stringify } from "query-string"
+import { is, path, pathEq, pick, pipe, toLower } from "ramda"
+import { Action, Store } from "redux"
+import { PgRestOptsInternal } from "./connectPgRest"
+import { HttpClient, HttpKind, HttpResponse } from "./http"
+import logger from "./log"
+import { PgRestActionInternal } from "./PgRestAction"
 
 export default function actionHttp(opts: PgRestOptsInternal, store: Store) {
   logger.verbose("Action HTTP handler initialised")

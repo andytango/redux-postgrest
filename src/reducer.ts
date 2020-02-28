@@ -2,7 +2,7 @@ import { allPass, pathEq, propOr } from "ramda"
 import { Action } from "redux"
 import { HttpKind, HttpMethod, HttpResponse } from "./http"
 import logger from "./log"
-import { PgRestOptsInternal } from "./main"
+import { PgRestOptsInternal } from "./connectPgRest"
 import { PgRestActionInternal } from "./PgRestAction"
 
 type HttpResponseCollection = { [K in HttpMethod]: HttpResponse }

@@ -10,9 +10,9 @@ import {
 } from "ramda"
 import { Action } from "redux"
 import { ActionHandler } from "./ActionHandler"
+import { PgRestOptsInternal } from "./connectPgRest"
 import { HttpKind, HttpMethod } from "./http"
 import logger from "./log"
-import { PgRestOptsInternal } from "./main"
 import { PgRestActionInternal } from "./PgRestAction"
 
 export interface ApiRoot {
