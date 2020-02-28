@@ -1,3 +1,4 @@
+import fetch from "fetch-vcr"
 import { Action, applyMiddleware, combineReducers, createStore } from "redux"
 import {
   HttpClient,
@@ -5,7 +6,7 @@ import {
   HttpMethod,
   HttpRequestConfig,
 } from "../src/http"
-import { httpFetch } from "../src/httpFetch"
+import { handleFetchResponse } from "../src/httpFetch"
 import connectPgRest from "../src/main"
 
 describe("connectPgRest", () => {
@@ -95,14 +96,19 @@ describe("connectPgRest", () => {
 
 function wrapHttp(fn: (res: Response) => any) {
   return (config: HttpRequestConfig) => {
-    return httpFetch(config).then((res: Response) => {
+    return testHttpFetch(config).then((res: Response) => {
       setImmediate(() => fn(res))
       return res
     })
   }
 }
 
-function createExampleMiddleware(http: HttpClient = httpFetch) {
+function testHttpFetch(config: HttpRequestConfig) {
+  const { url } = config
+  return fetch(url, config).then(handleFetchResponse(url))
+}
+
+function createExampleMiddleware(http: HttpClient = testHttpFetch) {
   return connectPgRest({
     http,
     url: "http://localhost:3000",

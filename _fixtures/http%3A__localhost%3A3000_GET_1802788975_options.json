@@ -1,0 +1,12 @@
+{
+  "url": "http://localhost:3000/",
+  "status": 200,
+  "statusText": "OK",
+  "ok": true,
+  "headers": {
+    "transfer-encoding": ["chunked"],
+    "date": ["Fri, 28 Feb 2020 14:50:03 GMT"],
+    "server": ["postgrest/6.0.2 (713b214)"],
+    "content-type": ["application/openapi+json; charset=utf-8"]
+  }
+}

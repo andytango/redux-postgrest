@@ -2147,6 +2147,14 @@ fecha@^2.3.3:
   resolved "https://registry.yarnpkg.com/fecha/-/fecha-2.3.3.tgz#948e74157df1a32fd1b12c3a3c3cdcb6ec9d96cd"
   integrity sha512-lUGBnIamTAwk4znq5BcqsDaxSmZ9nDVJaij6NvRt/Tg4R69gERA+otPKbS86ROw9nxVMw2/mp1fnaiWqbs6Sdg==
 
+fetch-vcr@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fetch-vcr/-/fetch-vcr-3.2.0.tgz#361ef95ac34489f2b4cb152d30696a69d7ac34e3"
+  integrity sha512-co/ChLJJm34Ta7QW/TDi4qkML5njACtMtzi+e9EgCfC852BQYkOFCg6LEoVJnbVBGQLtnSXd77uZuSnJCWGu5w==
+  dependencies:
+    node-fetch "^2.0.0"
+    whatwg-fetch "^2.0.3"
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
@@ -3206,11 +3214,6 @@ levenary@^1.1.1:
   dependencies:
     leven "^3.1.0"
 
-levenshtein@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/levenshtein/-/levenshtein-1.0.2.tgz#cd02e8b32075645ddcf5d059e02efa918f9fb3ec"
-  integrity sha1-zQLosyB1ZF3c9dBZ4C76kY+fs+w=
-
 levn@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.3.0.tgz#3b09924edf9f083c0490fdd4c0bc4421e04764ee"
@@ -3353,18 +3356,6 @@ mime-db@1.43.0:
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.43.0.tgz#0a12e0502650e473d735535050e7c8f4eb4fae58"
   integrity sha512-+5dsGEEovYbT8UY9yD7eE4XTc4UwJ1jBYlgaQQF38ENsKR3wj/8q8RFZrF9WIZpB2V1ArTVFUva8sAul1NzRzQ==
 
-mime-db@~1.30.0:
-  version "1.30.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
-  integrity sha1-dMZD2i3Z1qRTmZY0ZbJtXKfXHwE=
-
-mime-types@2.1.17:
-  version "2.1.17"
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.17.tgz#09d7a393f03e995a79f8af857b70a9e0ab16557a"
-  integrity sha1-Cdejk/A+mVp5+K+Fe3Cp4KsWVXo=
-  dependencies:
-    mime-db "~1.30.0"
-
 mime-types@^2.1.12, mime-types@~2.1.19:
   version "2.1.26"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.26.tgz#9c921fc09b7e149a65dfdc0da4d20997200b0a06"
@@ -3470,7 +3461,7 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-fetch@^2.6.0:
+node-fetch@^2.0.0, node-fetch@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
@@ -3979,14 +3970,6 @@ repeat-string@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
-
-replayer@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/replayer/-/replayer-2.2.3.tgz#98a9309cb645f814af8660bcd68e4734cccae416"
-  integrity sha512-Nx3S/jefme+48fue5pjrYUuN4XSBYnVp69ob2T4u2uJB3jDS+uKUbMo3ywBzI2Q6V8eHlJlBiW+GMsLsIMaR1w==
-  dependencies:
-    levenshtein "1.0.2"
-    mime-types "2.1.17"
 
 request-promise-core@1.1.3:
   version "1.1.3"
@@ -4787,6 +4770,11 @@ whatwg-fetch@>=0.10.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+
+whatwg-fetch@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
+  integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
 whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"
