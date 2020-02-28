@@ -1,8 +1,35 @@
 import {
+  createPgRestActions,
   createPgRestActionGet,
   createPgRestActionPost,
   createPgRestActionPatch,
+  createPgRestActionDelete,
 } from "../src/actionCreators"
+
+describe("createPgRestActions", () => {
+  it("returns an object with all the action creators", () => {
+    expect(createPgRestActions("example_table")).toEqual({
+      get: expect.any(Function),
+      post: expect.any(Function),
+      patch: expect.any(Function),
+      delete: expect.any(Function),
+    })
+  })
+
+  it("returns action creators with the example_table", () => {
+    const createAction = createPgRestActions("example_table")
+    ;([
+      ["get", createPgRestActionGet],
+      ["post", createPgRestActionPost],
+      ["patch", createPgRestActionPatch],
+      ["delete", createPgRestActionDelete],
+    ] as [string, Function][]).forEach(([key, fn]) => {
+      expect(createAction[key]({ k: "v" }, { k2: "v2" })).toEqual(
+        fn("example_table")({ k: "v" }, { k2: "v2" }),
+      )
+    })
+  })
+})
 
 describe("createPgRestActionGet", () => {
   itReturnsActionCreator(createPgRestActionGet)

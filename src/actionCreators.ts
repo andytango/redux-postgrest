@@ -1,5 +1,14 @@
 import { PgRestAction } from "./PgRestAction"
 
+export function createPgRestActions(type: string) {
+  return {
+    get: createPgRestActionGet(type),
+    post: createPgRestActionPost(type),
+    patch: createPgRestActionPatch(type),
+    delete: createPgRestActionDelete(type),
+  }
+}
+
 export function createPgRestActionGet(type: string) {
   return (query?: object, meta = {}) =>
     ({

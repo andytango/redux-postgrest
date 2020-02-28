@@ -7,6 +7,7 @@ import { httpFetch } from "./httpFetch"
 import logger from "./log"
 import queueActions from "./queueActions"
 import { createReducer } from "./reducer"
+import * as actionCreators from "./actionCreators"
 
 export interface PgRestOpts {
   http?: HttpClient
@@ -49,6 +50,8 @@ export default function connectPgRest(
     reducer: createReducer(optsInternal),
   }
 }
+
+export { actionCreators }
 
 function mergeDefaultOpts(opts: PgRestOpts): PgRestOptsInternal {
   return { http: httpFetch, ...opts }
