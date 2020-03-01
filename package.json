@@ -4,6 +4,7 @@
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "dependencies": {
+    "@types/react-redux": "^7.1.7",
     "dotenv": "^8.2.0",
     "isomorphic-fetch": "^2.2.1",
     "query-string": "^6.11.0",
@@ -23,6 +24,10 @@
     "node-fetch": "^2.6.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-test-renderer": "^16.13.0",
     "redux": "^4.0.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.29.1",
@@ -30,7 +35,10 @@
     "tslib": "^1.10.0",
     "typescript": "^3.7.5"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "^16.13.0",
+    "react-redux": "^7.2.0"
+  },
   "scripts": {
     "build": "rimraf ./dist && rollup -c",
     "build-test": "yarn test && yarn run build",

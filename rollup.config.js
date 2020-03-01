@@ -13,6 +13,7 @@ export default [
       "isomorphic-fetch",
       "winston",
       "query-string",
+      "react",
     ],
     output: [
       { file: pkg.main, format: "cjs" },
