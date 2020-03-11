@@ -9,6 +9,15 @@ import {
 } from "./actionCreators"
 import { PgRestAction } from "./PgRestAction"
 
+export function makePgRestHooks(type: string) {
+  return {
+    get: makePgRestHookGet(type),
+    post: makePgRestHookPost(type),
+    patch: makePgRestHookPatch(type),
+    delete: makePgRestHookDelete(type),
+  }
+}
+
 export function makePgRestHookGet(type: string) {
   return createDispatchHookFn(
     createPgRestActionGet(type),

@@ -1,17 +1,9 @@
 import connectPgRest from "./connectPgRest"
-import {
-  createPgRestActions,
-  createPgRestActionGet,
-  createPgRestActionPost,
-  createPgRestActionPatch,
-  createPgRestActionDelete,
-} from "./actionCreators"
+import * as actionCreators from "./actionCreators"
+import * as hooks from "./hooks"
 
-export {
+export const pgRest = {
   connectPgRest,
-  createPgRestActions,
-  createPgRestActionGet,
-  createPgRestActionPost,
-  createPgRestActionPatch,
-  createPgRestActionDelete,
+  ...actionCreators,
+  ...hooks,
 }

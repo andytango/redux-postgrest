@@ -3,6 +3,7 @@ import { Provider } from "react-redux"
 import TestRenderer from "react-test-renderer"
 import { createStore, ActionCreator } from "redux"
 import {
+  makePgRestHooks,
   makePgRestHookGet,
   makePgRestHookPost,
   makePgRestHookPatch,
@@ -14,6 +15,27 @@ import {
   createPgRestActionPatch,
   createPgRestActionDelete,
 } from "../src/actionCreators"
+
+describe("makePgRestHooks", () => {
+  it("takes a string and returns an object with hook creators", () => {
+    expect(makePgRestHooks("example_type")).toEqual({
+      get: expect.any(Function),
+      post: expect.any(Function),
+      patch: expect.any(Function),
+      delete: expect.any(Function),
+    })
+  })
+
+  it("returns correctly named hook fns", () => {
+    const hooks = makePgRestHooks("example_type")
+    ;["Get", "Post", "Patch", "Delete"].forEach(verb => {
+      expect(hooks[verb.toLowerCase()]).toHaveProperty(
+        "name",
+        `usePgRest${verb}(example_type)`,
+      )
+    })
+  })
+})
 
 describe("makePgRestHookGet", () => {
   it("takes a string returns a hook function", () => {
