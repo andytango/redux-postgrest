@@ -1,18 +1,3 @@
-// const { combine, label, printf } = format
-
-// const logFormat = printf(({ label, level, message }) => {
-//   return `[${label}] ${level.toUpperCase()} -- ${message}`
-// })
-
-// const logger = createLogger({
-//   level: getLogLevel(),
-//   transports: [
-//     new transports.Console({
-//       format: combine(label({ label: "REDUX_POSTGREST" }), logFormat),
-//     }),
-//   ],
-// })
-
 enum LogLevel {
   debug = "debug",
   verbose = "verbose",
