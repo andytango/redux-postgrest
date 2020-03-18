@@ -6,6 +6,8 @@ enum LogLevel {
   error = "error",
 }
 
+const LOG_LEVEL = LogLevel.warn
+
 const LogLevelOrder = [
   LogLevel.debug,
   LogLevel.verbose,
@@ -43,7 +45,7 @@ function getLogLevel(): LogLevel {
     return LogLevel.error
   }
 
-  return LogLevel[process.env.REDUX_POSTGREST_LOG_LEVEL] || LogLevel.warn
+  return LogLevel[LOG_LEVEL] || LogLevel.warn
 }
 
 function formatLogMsg(level: LogLevel, msg: string) {
