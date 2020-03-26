@@ -1,6 +1,6 @@
 {
   "name": "redux-postgrest",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "dependencies": {
