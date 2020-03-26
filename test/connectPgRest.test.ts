@@ -75,6 +75,8 @@ describe("connectPgRest", () => {
         expect(store.getState().api).toEqual({
           example_table: {
             [HttpMethod.GET]: {
+              query: undefined,
+              url: "http://localhost:3000/example_table",
               body: res.body,
               headers: res.headers,
               status: res.status,

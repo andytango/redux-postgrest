@@ -56,6 +56,7 @@ describe("createReducer", () => {
   it("stores responses according to their HTTP method", () => {
     const reducer = createExampleReducer()
     const exampleResponseGet = {
+      url: "http://example.tld/some_table",
       body: { example_key: "example_value" },
       status: 200,
       statusText: "ok",
@@ -63,6 +64,7 @@ describe("createReducer", () => {
     }
 
     const exampleResponsePost = {
+      url: "http://example.tld/some_table",
       body: { example_key: "example_value" },
       status: 201,
       statusText: "Created",

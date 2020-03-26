@@ -27,7 +27,11 @@ export function createReducer(opts: PgRestOptsInternal) {
         ...state,
         [action.type]: {
           ...state[action.type],
-          [action.meta.method]: action.meta.response,
+          [action.meta.method]: {
+            ...action.meta.response,
+            url: action.meta.url,
+            query: action.meta.query,
+          },
         },
       }
     }
