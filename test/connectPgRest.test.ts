@@ -81,6 +81,7 @@ describe("connectPgRest", () => {
               headers: res.headers,
               status: res.status,
               statusText: res.statusText,
+              loading: false,
             },
           },
         })

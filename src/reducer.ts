@@ -12,17 +12,21 @@ const initialState = {} as { [key: string]: HttpResponseCollection }
 const urlProp = propOr("", "url")
 
 export function createReducer(opts: PgRestOptsInternal) {
+  const isApiAction = pathEq(["meta", "api"], urlProp(opts))
+  const hasMetaKind = pathEq(["meta", "kind"])
+
   const isHttpResponse = <(action: Action) => action is PgRestActionInternal>(
-    allPass([
-      pathEq(["meta", "api"], urlProp(opts)),
-      pathEq(["meta", "kind"], HttpKind.RESPONSE),
-    ])
+    allPass([isApiAction, hasMetaKind(HttpKind.RESPONSE)])
+  )
+
+  const isHttpRequest = <(action: Action) => action is PgRestActionInternal>(
+    allPass([isApiAction, hasMetaKind(HttpKind.REQUEST)])
   )
 
   return (state = initialState, action: Action | PgRestActionInternal) => {
     logger.verbose(`Reducing ${action.type} against ${opts.url}`)
     if (isHttpResponse(action)) {
-      logMatchingAction(opts.url, action.type)
+      logMatchingAction(opts.url, "response", action.type)
       return {
         ...state,
         [action.type]: {
@@ -31,6 +35,22 @@ export function createReducer(opts: PgRestOptsInternal) {
             ...action.meta.response,
             url: action.meta.url,
             query: action.meta.query,
+            loading: false,
+          },
+        },
+      }
+    }
+
+    if (isHttpRequest(action)) {
+      logMatchingAction(opts.url, "request", action.type)
+      return {
+        ...state,
+        [action.type]: {
+          ...state[action.type],
+          [action.meta.method]: {
+            url: action.meta.url,
+            query: action.meta.query,
+            loading: true,
           },
         },
       }
@@ -40,6 +60,6 @@ export function createReducer(opts: PgRestOptsInternal) {
   }
 }
 
-function logMatchingAction(url: string, type: string) {
-  logger.debug(`Reducing received HTTP response ${type} against ${url}`)
+function logMatchingAction(url: string, kind: string, type: string) {
+  logger.debug(`Reducing received HTTP ${kind} ${type} against ${url}`)
 }

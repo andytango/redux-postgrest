@@ -34,7 +34,7 @@ describe("createReducer", () => {
     ).toEqual({})
   })
 
-  it("ignores actions that are not http responses", () => {
+  it("sets initial loading state when a request is sent", () => {
     const reducer = createExampleReducer()
 
     expect(
@@ -50,7 +50,14 @@ describe("createReducer", () => {
           },
         },
       ),
-    ).toEqual({})
+    ).toEqual({
+      some_table: {
+        [HttpMethod.GET]: {
+          url: "http://example.tld/some_table",
+          loading: true,
+        },
+      },
+    })
   })
 
   it("stores responses according to their HTTP method", () => {
@@ -96,13 +103,13 @@ describe("createReducer", () => {
       },
     })
 
-    expect(state1).toEqual({
+    expect(state1).toMatchObject({
       some_table: {
         [HttpMethod.GET]: exampleResponseGet,
       },
     })
 
-    expect(state2).toEqual({
+    expect(state2).toMatchObject({
       some_table: {
         [HttpMethod.GET]: exampleResponseGet,
         [HttpMethod.POST]: exampleResponsePost,
