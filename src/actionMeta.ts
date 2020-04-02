@@ -2,6 +2,7 @@ import {
   concat,
   forEach,
   includes,
+  is,
   keys,
   pipe,
   prop,
@@ -63,8 +64,20 @@ function getCommonMetaProps(
   return {
     api: opts.url,
     kind: HttpKind.REQUEST,
-    ...action.meta,
+    ...(action.meta && standardiseActionMeta(action.meta)),
   }
+}
+
+const isString = is(String) as (s: any) => s is string
+
+function standardiseActionMeta(meta: { method: string | undefined }) {
+  const { method } = meta
+
+  if (isString(method)) {
+    return { ...meta, method: method.toUpperCase() }
+  }
+
+  return meta
 }
 
 const typeProp: (action: Action) => any = prop("type")

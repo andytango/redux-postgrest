@@ -58,6 +58,25 @@ describe("addActionMeta", () => {
     })
   })
 
+  it("capitalises user provided http methods", () => {
+    const exampleAction = {
+      type: "EXAMPLE_TABLE",
+      someKey: "someVal",
+      meta: { method: "patch", kind: HttpKind.RESPONSE },
+    }
+
+    expect(createExampleHandler()(exampleAction)).toEqual({
+      type: "EXAMPLE_TABLE",
+      someKey: "someVal",
+      meta: {
+        api: "https://hostname.tld",
+        method: HttpMethod.PATCH,
+        url: "https://hostname.tld/example_table",
+        kind: HttpKind.RESPONSE,
+      },
+    })
+  })
+
   function createExampleHandler() {
     return addActionMeta(
       { url: "https://hostname.tld", http: httpFetch },
