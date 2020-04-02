@@ -1,6 +1,6 @@
 {
   "name": "redux-postgrest",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "dependencies": {
@@ -44,7 +44,8 @@
     "dev": "rollup -c -w",
     "lint": "prettier --write *.js src/**.[jt]s test/**.[jt]s",
     "test": "VCR_MODE=playback jest",
-    "test:watch": "VCR_MODE=cache jest --watch"
+    "test:watch": "VCR_MODE=cache jest --watch",
+    "prepublishOnly": "yarn build-test"
   },
   "files": [
     "dist"
