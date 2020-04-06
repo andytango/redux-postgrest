@@ -1,5 +1,4 @@
 export interface HttpResponse {
-  url: string
   body: object
   status: number
   statusText: string
