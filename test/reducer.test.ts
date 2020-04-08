@@ -22,7 +22,7 @@ describe("createReducer", () => {
       reducer(
         {},
         {
-          type: "examplsome_table",
+          type: "example_table",
           meta: {
             api: "http://other-example.tld",
             url: "http://other-example.tld/some_table",
@@ -50,10 +50,57 @@ describe("createReducer", () => {
           },
         },
       ),
-    ).toEqual({
+    ).toMatchObject({
       some_table: {
         [HttpMethod.GET]: {
           url: "http://example.tld/some_table",
+          loading: true,
+        },
+        [HttpMethod.POST]: null,
+        [HttpMethod.PATCH]: null,
+        [HttpMethod.DELETE]: null,
+      },
+    })
+  })
+
+  it("preserves old response when making a new request", () => {
+    const reducer = createExampleReducer()
+
+    const exampleResponse1 = {
+      url: "http://example.tld/some_table",
+      body: { example_key: "example_value" },
+      status: 200,
+      statusText: "ok",
+      headers: {},
+    }
+
+    expect(
+      reducer(
+        {
+          some_table: {
+            [HttpMethod.GET]: exampleResponse1,
+            [HttpMethod.POST]: null,
+            [HttpMethod.PATCH]: null,
+            [HttpMethod.DELETE]: null,
+          },
+        },
+        {
+          type: "some_table",
+          meta: {
+            api: "http://example.tld",
+            url: "http://example.tld/some_table",
+            kind: HttpKind.REQUEST,
+            method: HttpMethod.GET,
+          },
+        },
+      ),
+    ).toMatchObject({
+      some_table: {
+        [HttpMethod.POST]: null,
+        [HttpMethod.PATCH]: null,
+        [HttpMethod.DELETE]: null,
+        [HttpMethod.GET]: {
+          ...exampleResponse1,
           loading: true,
         },
       },

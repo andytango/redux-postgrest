@@ -30,6 +30,7 @@ export function createReducer(opts: PgRestOptsInternal) {
       return {
         ...state,
         [action.type]: {
+          ...initialResourceState(),
           ...state[action.type],
           [action.meta.method]: {
             ...action.meta.response,
@@ -43,11 +44,15 @@ export function createReducer(opts: PgRestOptsInternal) {
 
     if (isHttpRequest(action)) {
       logMatchingAction(opts.url, "request", action.type)
+      const prevResourceState = state[action.type]
+
       return {
         ...state,
         [action.type]: {
-          ...state[action.type],
+          ...initialResourceState(),
+          ...prevResourceState,
           [action.meta.method]: {
+            ...(prevResourceState && prevResourceState[action.meta.method]),
             url: action.meta.url,
             query: action.meta.query,
             loading: true,
@@ -57,6 +62,15 @@ export function createReducer(opts: PgRestOptsInternal) {
     }
 
     return state
+  }
+}
+
+function initialResourceState() {
+  return {
+    [HttpMethod.GET]: null,
+    [HttpMethod.POST]: null,
+    [HttpMethod.PATCH]: null,
+    [HttpMethod.DELETE]: null,
   }
 }
 

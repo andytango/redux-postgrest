@@ -69,10 +69,10 @@ describe("connectPgRest", () => {
     const store = createStore(reducer, applyMiddleware(middleware))
   })
 
-  it("provides a reducer that exposes the latest http resonses", done => {
+  it("provides a reducer that exposes the latest http responses", done => {
     const http = wrapHttp(res => {
       if (res.url.endsWith("/example_table")) {
-        expect(store.getState().api).toEqual({
+        expect(store.getState().api).toMatchObject({
           example_table: {
             [HttpMethod.GET]: {
               query: undefined,
