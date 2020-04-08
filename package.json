@@ -19,7 +19,7 @@
     "@wessberg/rollup-plugin-ts": "^1.2.16",
     "fetch-vcr": "^3.2.0",
     "husky": "^4.2.1",
-    "jest": "^25.1.0",
+    "jest": "^25.2.7",
     "node-fetch": "^2.6.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
@@ -30,9 +30,9 @@
     "redux": "^4.0.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.29.1",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "^25.3.1",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "peerDependencies": {
     "react": "^16.13.0",
