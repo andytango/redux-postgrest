@@ -1,4 +1,3 @@
-import { pipe } from "ramda"
 import { useDispatch } from "react-redux"
 import { ActionCreator, compose } from "redux"
 import {
