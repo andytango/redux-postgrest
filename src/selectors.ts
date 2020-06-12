@@ -1,26 +1,36 @@
 import { has, identity, ifElse, pathOr, pipe } from "ramda"
 import { HttpMethod } from "./http"
 
-export interface PgRestSelectors {
-  get: (resource: string) => (state: object) => object | null
-  post: (resource: string) => (state: object) => object | null
-  patch: (resource: string) => (state: object) => object | null
-  delete: (resource: string) => (state: object) => object | null
+type PgRestResourceSelector = (
+  resource: string,
+) => (state: any) => typeof state | NullResource
+
+type NullResource = null
+
+export interface PgRestResourceSelectors {
+  get: PgRestResourceSelector
+  post: PgRestResourceSelector
+  patch: PgRestResourceSelector
+  delete: PgRestResourceSelector
 }
 
-export function createPgRestSelectors(reducerKey?: string): PgRestSelectors {
-  const createSelector = createSelectorFn(reducerKey)
+export function createPgRestSelectors(
+  reducerKey?: string,
+): PgRestResourceSelectors {
+  const createSelectorFactoryForMethod = createSelectorFactoryForReducer(
+    reducerKey,
+  )
   return {
-    get: createSelector(HttpMethod.GET),
-    post: createSelector(HttpMethod.POST),
-    patch: createSelector(HttpMethod.PATCH),
-    delete: createSelector(HttpMethod.DELETE),
+    get: createSelectorFactoryForMethod(HttpMethod.GET),
+    post: createSelectorFactoryForMethod(HttpMethod.POST),
+    patch: createSelectorFactoryForMethod(HttpMethod.PATCH),
+    delete: createSelectorFactoryForMethod(HttpMethod.DELETE),
   }
 }
 
-type ReducerKeyValidator = (state: object) => object
+type ReducerKeyValidator = (state: any) => typeof state
 
-function createReducerPathCheck(
+function createReducerPathChecker(
   reducerKey: string | undefined,
 ): ReducerKeyValidator {
   if (reducerKey) {
@@ -32,14 +42,20 @@ function createReducerPathCheck(
   return identity
 }
 
-function createSelectorFn(reducerKey: string | undefined) {
-  const checkReducerPath = createReducerPathCheck(reducerKey)
-
+function createSelectorFactoryForReducer(
+  reducerKey: string | undefined,
+): PgRestResourceSelector {
   if (reducerKey) {
     return (method: HttpMethod) => (resource: string) =>
-      pipe(checkReducerPath, pathOr(null, [reducerKey, resource, method]))
+      pipe(
+        createReducerPathChecker(reducerKey),
+        pathOr(null as NullResource, [reducerKey, resource, method]),
+      )
   }
 
   return (method: HttpMethod) => (resource: string) =>
-    pipe(checkReducerPath, pathOr(null, [resource, method]))
+    pipe(
+      createReducerPathChecker(reducerKey),
+      pathOr(null as NullResource, [resource, method]),
+    )
 }
