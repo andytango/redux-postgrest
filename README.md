@@ -1,4 +1,4 @@
-# Redux-Postgrest 🐘 
+# 🐘 Redux-Postgrest  
 
 <a href="https://www.npmjs.com/package/redux-postgrest">
   <img src="https://img.shields.io/npm/v/redux-postgrest.svg" alt="Version" />
@@ -6,10 +6,10 @@
 
 A library to make developing with React and postgREST as effortless as possible, by taking care of all the plumbing 🔧.
 
-[See the demo app!](https://github.com/andytango/redux-postgrest-demo).
+[See the demo app!](https://github.com/andytango/redux-postgrest-demo)
 
 
-# Motivation
+# Why?
 
 One of the great things about [PostgREST](http://postgrest.org/) is that it can remove any indirection between your React application and your database, treating your data model itself as a *"single, declarative source of truth"*.
 
@@ -17,7 +17,7 @@ Redux-PostgREST fully embraces this philsosophy. Your tables, views and function
 
 Now, when you want to query your database, all you have to do is just *dispatch redux actions*, and then *select the response data*! 👍 
 
-# What's in the box 🧰
+# 🧰 What's in the box 
 
 - A middleware - *takes care of data fetching*
 - A reducer - *stores API requests and responses*
@@ -29,7 +29,7 @@ Optionally, to make life *even easier*:
 - Selectors - *in development*
 - Hooks
 
-# Quickstart 🏁
+# 🏁 Quickstart
 
 ## Install
 
