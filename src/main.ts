@@ -14,6 +14,8 @@ import {
   makePgRestHookDelete,
 } from "./hooks"
 
+import { createPgRestSelectors } from "./selectors"
+
 export {
   connectPgRest,
   createPgRestActions,
@@ -21,6 +23,7 @@ export {
   createPgRestActionPost,
   createPgRestActionPatch,
   createPgRestActionDelete,
+  createPgRestSelectors,
   makePgRestHooks,
   makePgRestHookGet,
   makePgRestHookPost,
