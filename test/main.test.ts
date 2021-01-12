@@ -9,6 +9,7 @@ describe("pgRest module", () => {
       createPgRestActionPost: expect.any(Function),
       createPgRestActionPatch: expect.any(Function),
       createPgRestActionDelete: expect.any(Function),
+      createPgRestSelectors: expect.any(Function),
       makePgRestHooks: expect.any(Function),
       makePgRestHookGet: expect.any(Function),
       makePgRestHookPost: expect.any(Function),
