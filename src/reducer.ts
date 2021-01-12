@@ -37,6 +37,7 @@ export function createReducer(opts: PgRestOptsInternal) {
             url: action.meta.url,
             query: action.meta.query,
             loading: false,
+            requestHeaders: action.meta.headers,
           },
         },
       }
