@@ -2,7 +2,7 @@ export interface HttpResponse {
   body: object
   status: number
   statusText: string
-  headers: object
+  headers: Headers
 }
 
 export interface HttpRequestConfig {
