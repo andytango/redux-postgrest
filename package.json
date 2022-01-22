@@ -20,7 +20,7 @@
     "fetch-vcr": "^3.2.0",
     "husky": "^4.2.1",
     "jest": "^25.2.7",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "react": "^16.13.0",
